@@ -8,6 +8,10 @@ JTBA - Developed with ♥ and Published by digitaldojo.tech
 
 ---
 
+### [Please read The WIKI](https://github.com/PharaStarLLC/JTBA/wiki)
+
+---
+
 #### Add digitaldojo.tech Repository:
 
 ```groovy
