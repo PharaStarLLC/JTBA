@@ -1,0 +1,14 @@
+[versions]
+
+# Gradle plugins
+shadow = "7.1.2"
+licenser = "0.6.1"
+lombok = "6.5.0.3"
+
+[plugins]
+# Gradle plugins
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+licenser = { id = "org.cadixdev.licenser", version.ref = "licenser" }
+lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
+
+[libraries]
