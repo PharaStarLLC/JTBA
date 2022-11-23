@@ -44,12 +44,26 @@ import java.util.List;
 @lombok.Data
 public class InlineKeyboardMarkup implements Data {
 
-    public List<InlineKeyboardButton> inline_keyboard;
+    /**
+     * List of button rows, each represented by a List of {@link InlineKeyboardButton} objects
+     */
+    public List<List<InlineKeyboardButton>> inline_keyboard;
 
+    /**
+     * Creates a new {@link InlineKeyboardMarkup} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link InlineKeyboardMarkup}
+     */
     public static InlineKeyboardMarkup fromJson(String data) {
         return JsonSerializer.fromJson(data, InlineKeyboardMarkup.class);
     }
 
+    /**
+     * Convert a {@link InlineKeyboardMarkup} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

@@ -100,7 +100,7 @@ public class Chat implements Data {
     public String bio;
 
     /**
-     * Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat.
+     * Optional. True, if privacy settings of the other party in the private chat allows to use <code style="color: red; background-color: black;">tg://user?id={user_id}</code> links only in chats with the user. Returned only in getChat.
      */
     public boolean has_public_forwards;
 
@@ -140,7 +140,7 @@ public class Chat implements Data {
     public ChatPermissions permissions;
 
     /**
-     * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat.
+     * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds. Returned only in getChat.
      */
     public long slow_mode_delay;
 

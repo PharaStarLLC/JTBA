@@ -41,6 +41,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @AllArgsConstructor
 @lombok.Data
 public class InlineQuery implements Data {
+    // TODO: continue API docs...
 
     public String id;
     public User from;

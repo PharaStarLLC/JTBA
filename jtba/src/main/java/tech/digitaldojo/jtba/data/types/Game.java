@@ -44,17 +44,51 @@ import java.util.List;
 @lombok.Data
 public class Game implements Data {
 
+    /**
+     * Title of the game
+     */
     public String title;
+
+    /**
+     * Description of the game
+     */
     public String description;
+
+    /**
+     * Photo that will be displayed in the game message in chats.
+     */
     public List<PhotoSize> photo;
+
+    /**
+     * Optional. Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls setGameScore, or manually edited using editMessageText. 0-4096 characters.
+     */
     public String text;
+
+    /**
+     * Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
+     */
     public List<MessageEntity> text_entities;
+
+    /**
+     * Optional. Animation that will be displayed in the game message in chats. Upload via BotFather
+     */
     public Animation animation;
 
+    /**
+     * Creates a new {@link Game} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link Game}
+     */
     public static Game fromJson(String data) {
         return JsonSerializer.fromJson(data, Game.class);
     }
 
+    /**
+     * Convert a {@link Game} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

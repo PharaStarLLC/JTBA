@@ -58,7 +58,7 @@ public class File implements Data {
     public long file_size;
 
     /**
-     * Optional. File path. Use <code style="color: red; background-color: black;">https://api.telegram.org/file/bot{token}/<file_path></code> to get the file.
+     * Optional. File path. Use <code style="color: red; background-color: black;">https://api.telegram.org/file/bot{token}/{file_path}</code> to get the file.
      */
     public long file_path;
 
