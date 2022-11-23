@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatJoinRequest
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatjoinrequest">/bots/api#chatjoinrequest</a>
  * @since 23.11.2022
  */
@@ -42,16 +42,46 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ChatJoinRequest implements Data {
 
+    /**
+     * Chat to which the request was sent
+     */
     public Chat chat;
+
+    /**
+     * User that sent the join request
+     */
     public User from;
+
+    /**
+     * Date the request was sent in Unix time
+     */
     public long date;
+
+    /**
+     * Optional. Bio of the user.
+     */
     public String bio;
+
+    /**
+     * Optional. Chat invite link that was used by the user to send the join request
+     */
     public ChatInviteLink invite_link;
 
+    /**
+     * Creates a new {@link ChatJoinRequest} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatJoinRequest}
+     */
     public static ChatJoinRequest fromJson(String data) {
         return JsonSerializer.fromJson(data, ChatJoinRequest.class);
     }
 
+    /**
+     * Convert a {@link ChatJoinRequest} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

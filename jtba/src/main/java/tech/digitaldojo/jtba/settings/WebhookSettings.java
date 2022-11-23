@@ -33,7 +33,7 @@ import lombok.Data;
 /**
  * JTBA; tech.digitaldojo.jtba.settings:WebhookSettings
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
 @Data

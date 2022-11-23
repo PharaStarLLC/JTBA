@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:PassportData
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#passportdata">/bots/api#passportdata</a>
  * @since 23.11.2022
  */

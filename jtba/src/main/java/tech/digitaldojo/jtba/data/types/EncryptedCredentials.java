@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:EncryptedCredentials
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#encryptedcredentials">/bots/api#encryptedcredentials</a>
  * @since 23.11.2022
  */
@@ -42,14 +42,36 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class EncryptedCredentials implements Data {
 
+    /**
+     * Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for {@link EncryptedPassportElement} decryption and authentication
+     */
     public String data;
+
+    /**
+     * Base64-encoded data hash for data authentication
+     */
     public String hash;
+
+    /**
+     * Base64-encoded secret, encrypted with the bots public RSA key, required for data decryption
+     */
     public String secret;
 
+    /**
+     * Creates a new {@link EncryptedCredentials} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link EncryptedCredentials}
+     */
     public static EncryptedCredentials fromJson(String data) {
         return JsonSerializer.fromJson(data, EncryptedCredentials.class);
     }
 
+    /**
+     * Convert a {@link EncryptedCredentials} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

@@ -38,9 +38,10 @@ import lombok.NoArgsConstructor;
 /**
  * JTBA; tech.digitaldojo.jtba.json:JsonSerializer
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonSerializer {
 

@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatMemberOwner
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatmemberowner">/bots/api#chatmemberowner</a>
  * @since 23.11.2022
  */
@@ -42,9 +42,19 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @Setter
 public class ChatMemberOwner extends ChatMember {
 
+    /**
+     * Chat Member Type
+     */
     public static ChatMemberType type = ChatMemberType.OWNER;
 
+    /**
+     * True, if the user's presence in the chat is hidden
+     */
     public boolean is_anonymous;
+
+    /**
+     * Optional. Custom title for this user
+     */
     public String custom_title;
 
     public ChatMemberOwner(final User user, final String status, final boolean is_anonymous, final String custom_title) {

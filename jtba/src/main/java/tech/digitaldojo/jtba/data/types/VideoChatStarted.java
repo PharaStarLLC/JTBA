@@ -33,7 +33,7 @@ import tech.digitaldojo.jtba.data.Data;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:VideoChatStarted
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#videochatstarted">/bots/api#videochatstarted</a>
  *         Currently holds no information.
  * @since 23.11.2022

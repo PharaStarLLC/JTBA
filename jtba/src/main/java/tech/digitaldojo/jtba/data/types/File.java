@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:File
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#file">/bots/api#file</a>
  * @since 23.11.2022
  */
@@ -42,15 +42,41 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class File implements Data {
 
+    /**
+     * Identifier for this file, which can be used to download or reuse the file
+     */
     public String file_id;
+
+    /**
+     * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+     */
     public String file_unique_id;
+
+    /**
+     * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
+     */
     public long file_size;
+
+    /**
+     * Optional. File path. Use <code style="color: red; background-color: black;">https://api.telegram.org/file/bot{token}/<file_path></code> to get the file.
+     */
     public long file_path;
 
+    /**
+     * Creates a new {@link File} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link File}
+     */
     public static File fromJson(String data) {
         return JsonSerializer.fromJson(data, File.class);
     }
 
+    /**
+     * Convert a {@link File} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

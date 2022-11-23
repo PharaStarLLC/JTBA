@@ -29,31 +29,34 @@ package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
 import tech.digitaldojo.jtba.data.Data;
-import tech.digitaldojo.jtba.json.JsonSerializer;
 
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:CallbackGame
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#callbackgame">/bots/api#callbackgame</a>
+ *         A placeholder, currently holds no information. Use BotFather to set up your game.
  * @since 23.11.2022
  */
 @AllArgsConstructor
 @lombok.Data
 public class CallbackGame implements Data {
 
-    public long user_id;
-    public long score;
-    public boolean force;
-    public boolean disable_edit_message;
-    public long chat_id;
-    public long message_id;
-    public String inline_message_id;
-
+    /**
+     * Creates a new {@link CallbackGame} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link CallbackGame}
+     */
     public static CallbackGame fromJson(String data) {
-        return JsonSerializer.fromJson(data, CallbackGame.class);
+        return new CallbackGame();
     }
 
+    /**
+     * Convert a {@link CallbackGame} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

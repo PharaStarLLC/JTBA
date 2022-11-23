@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatInviteLink
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatinvitelink">/bots/api#chatinvitelink</a>
  * @since 23.11.2022
  */
@@ -42,20 +42,66 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ChatInviteLink implements Data {
 
+    /**
+     * The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
+     */
     public String invite_link;
+
+    /**
+     * Creator of the link
+     */
     public User creator;
+
+    /**
+     * True, if users joining the chat via the link need to be approved by chat administrators
+     */
     public boolean creates_join_request;
+
+    /**
+     * True, if the link is primary
+     */
     public boolean is_primary;
+
+    /**
+     * True, if the link is revoked
+     */
     public boolean is_revoked;
+
+    /**
+     * Optional. Invite link name
+     */
     public String name;
+
+    /**
+     * Optional. Point in time (Unix timestamp) when the link will expire or has been expired
+     */
     public long expire_date;
+
+    /**
+     * Optional. The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+     */
     public long member_limit;
+
+    /**
+     * Optional. Number of pending join requests created using this link
+     */
     public long pending_join_request_count;
 
+    /**
+     * Creates a new {@link ChatInviteLink} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatInviteLink}
+     */
     public static ChatInviteLink fromJson(String data) {
         return JsonSerializer.fromJson(data, ChatInviteLink.class);
     }
 
+    /**
+     * Convert a {@link ChatInviteLink} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

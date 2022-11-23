@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChosenInlineResult
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#choseninlineresult">/bots/api#choseninlineresult</a>
  * @since 23.11.2022
  */
@@ -42,16 +42,46 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ChosenInlineResult implements Data {
 
+    /**
+     * The unique identifier for the result that was chosen
+     */
     public String result_id;
+
+    /**
+     * The user that chose the result
+     */
     public User from;
+
+    /**
+     * Optional. Sender location, only for bots that require user location
+     */
     public Location location;
+
+    /**
+     * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
+     */
     public String inline_message_id;
+
+    /**
+     * The query that was used to obtain the result
+     */
     public String query;
 
+    /**
+     * Creates a new {@link ChosenInlineResult} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChosenInlineResult}
+     */
     public static ChosenInlineResult fromJson(String data) {
         return JsonSerializer.fromJson(data, ChosenInlineResult.class);
     }
 
+    /**
+     * Convert a {@link ChosenInlineResult} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatMemberBanned
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatmemberbanned">/bots/api#chatmemberbanned</a>
  * @since 23.11.2022
  */
@@ -42,8 +42,14 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @Setter
 public class ChatMemberBanned extends ChatMember {
 
+    /**
+     * Chat Member Type
+     */
     public static ChatMemberType type = ChatMemberType.BANNED;
 
+    /**
+     * Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
+     */
     public long until_date;
 
     public ChatMemberBanned(final User user, final String status, final long until_date) {
@@ -51,10 +57,21 @@ public class ChatMemberBanned extends ChatMember {
         this.until_date = until_date;
     }
 
+    /**
+     * Creates a new {@link ChatMemberBanned} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatMemberBanned}
+     */
     public static ChatMemberBanned fromJson(String data) {
         return JsonSerializer.fromJson(data, ChatMemberBanned.class);
     }
 
+    /**
+     * Convert a {@link ChatMemberBanned} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

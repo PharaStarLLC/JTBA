@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 /**
  * JTBA; tech.digitaldojo.jtba:JTBAConstants
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

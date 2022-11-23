@@ -30,7 +30,7 @@ package tech.digitaldojo.jtba.errors;
 /**
  * JTBA; tech.digitaldojo.jtba.errors:FatalError
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  *         <p>
  *         Fatal Error. Error code is `"EFATAL"`.

@@ -33,7 +33,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * Serializable Data Object
  * JTBA; tech.digitaldojo.jtba.data:Data
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 23.11.2022
  */
 public interface Data {

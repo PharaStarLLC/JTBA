@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba:JTBA_ExampleBotImplementation
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 23.11.2022
  */
 public class JTBA_ExampleBotImplementation {
@@ -43,10 +43,8 @@ public class JTBA_ExampleBotImplementation {
 
     public static void main(String[] args) {
         System.out.println("Starting...");
-        String token = "5625977159:AAH-GPkavkWrAponVZwXYViS_U3wL0BgJWI";
+        String token = args[0];
         bot = new TelegramBot(token);
-
-        System.out.println(JsonSerializer.pretty());
 
         // Add any error handler
         bot.on(TelegramEvents.error, System.out::println);

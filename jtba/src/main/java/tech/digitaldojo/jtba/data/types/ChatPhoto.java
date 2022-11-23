@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatPhoto
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatphoto">/bots/api#chatphoto</a>
  * @since 23.11.2022
  */
@@ -42,15 +42,41 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ChatPhoto implements Data {
 
+    /**
+     * File identifier of small (160x160) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.
+     */
     public String small_file_id;
+
+    /**
+     * Unique file identifier of small (160x160) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+     */
     public String small_file_unique_id;
+
+    /**
+     * File identifier of big (640x640) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.
+     */
     public String big_file_id;
+
+    /**
+     * Unique file identifier of big (640x640) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+     */
     public String big_file_unique_id;
 
+    /**
+     * Creates a new {@link ChatPhoto} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatPhoto}
+     */
     public static ChatPhoto fromJson(String data) {
         return JsonSerializer.fromJson(data, ChatPhoto.class);
     }
 
+    /**
+     * Convert a {@link ChatPhoto} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

@@ -54,7 +54,7 @@ import java.util.function.Consumer;
 /**
  * JTBA; tech.digitaldojo.jtba:TelegramBot
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api">/bots/api</a>
  * @since 22.11.2022
  */

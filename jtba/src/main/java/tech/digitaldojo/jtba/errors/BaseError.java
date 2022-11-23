@@ -32,7 +32,7 @@ import lombok.Getter;
 /**
  * JTBA; tech.digitaldojo.jtba.errors:BaseError
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
 public class BaseError extends Exception {

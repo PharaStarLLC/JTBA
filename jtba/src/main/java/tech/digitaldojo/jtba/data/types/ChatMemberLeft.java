@@ -32,22 +32,36 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatMemberLeft
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatmemberleft">/bots/api#chatmemberleft</a>
  * @since 23.11.2022
  */
 public class ChatMemberLeft extends ChatMember {
 
+    /**
+     * Chat Member Type
+     */
     public static ChatMemberType type = ChatMemberType.LEFT;
 
     public ChatMemberLeft(final User user, final String status) {
         super(user, status);
     }
 
-    public static ChatMemberAdministrator fromJson(String data) {
-        return JsonSerializer.fromJson(data, ChatMemberAdministrator.class);
+    /**
+     * Creates a new {@link ChatMemberLeft} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatMemberLeft}
+     */
+    public static ChatMemberLeft fromJson(String data) {
+        return JsonSerializer.fromJson(data, ChatMemberLeft.class);
     }
 
+    /**
+     * Convert a {@link ChatMemberLeft} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

@@ -30,7 +30,7 @@ package tech.digitaldojo.jtba.events;
 /**
  * JTBA; tech.digitaldojo.jtba.events:MessageEvents
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
 public enum MessageEvents {

@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:Game
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#game">/bots/api#game</a>
  * @since 23.11.2022
  */

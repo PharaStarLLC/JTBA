@@ -30,15 +30,33 @@ package tech.digitaldojo.jtba.data.types;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatMemberType
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatmember">/bots/api#chatmember</a>
  * @since 23.11.2022
  */
 public enum ChatMemberType {
+    /**
+     * {@link ChatMemberOwner}
+     */
     OWNER,
+    /**
+     * {@link ChatMemberAdministrator}
+     */
     ADMINISTRATOR,
+    /**
+     * {@link ChatMember}
+     */
     MEMBER,
+    /**
+     * {@link ChatMemberRestricted}
+     */
     RESTRICTED,
+    /**
+     * {@link ChatMemberLeft}
+     */
     LEFT,
+    /**
+     * {@link ChatMemberBanned}
+     */
     BANNED;
 }

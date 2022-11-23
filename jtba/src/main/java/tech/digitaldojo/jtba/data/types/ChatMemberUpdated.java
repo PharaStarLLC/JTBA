@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatMemberUpdated
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatmemberupdated">/bots/api#chatmemberupdated</a>
  * @since 23.11.2022
  */
@@ -42,17 +42,51 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ChatMemberUpdated implements Data {
 
+    /**
+     * Chat the user belongs to
+     */
     public Chat chat;
+
+    /**
+     * Performer of the action, which resulted in the change
+     */
     public User from;
+
+    /**
+     * Date the change was done in Unix time
+     */
     public long date;
+
+    /**
+     * Previous information about the chat member
+     */
     public ChatMember old_chat_member;
+
+    /**
+     * New information about the chat member
+     */
     public ChatMember new_chat_member;
+
+    /**
+     * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+     */
     public ChatInviteLink invite_link;
 
+    /**
+     * Creates a new {@link ChatMemberUpdated} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatMemberUpdated}
+     */
     public static ChatMemberUpdated fromJson(String data) {
         return JsonSerializer.fromJson(data, ChatMemberUpdated.class);
     }
 
+    /**
+     * Convert a {@link ChatMemberUpdated} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

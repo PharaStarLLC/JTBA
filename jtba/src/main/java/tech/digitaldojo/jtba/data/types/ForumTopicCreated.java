@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ForumTopicCreated
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#forumtopiccreated">/bots/api#forumtopiccreated</a>
  * @since 23.11.2022
  */
@@ -42,14 +42,36 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ForumTopicCreated implements Data {
 
+    /**
+     * Name of the topic
+     */
     public String name;
+
+    /**
+     * Color of the topic icon in RGB format
+     */
     public long icon_color;
+
+    /**
+     * Optional. Unique identifier of the custom emoji shown as the topic icon
+     */
     public String icon_custom_emoji_id;
 
+    /**
+     * Creates a new {@link ForumTopicCreated} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ForumTopicCreated}
+     */
     public static ForumTopicCreated fromJson(String data) {
         return JsonSerializer.fromJson(data, ForumTopicCreated.class);
     }
 
+    /**
+     * Convert a {@link ForumTopicCreated} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

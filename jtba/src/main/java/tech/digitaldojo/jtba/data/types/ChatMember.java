@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:ChatMember
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#chatmember">/bots/api#chatmember</a>
  * @since 23.11.2022
  */
@@ -42,15 +42,36 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class ChatMember implements Data {
 
+    /**
+     * Chat Member Type
+     */
     public static ChatMemberType type = ChatMemberType.MEMBER;
 
+    /**
+     * Information about the user
+     */
     public User user;
+
+    /**
+     * The member's status in the chat, always “member”
+     */
     public String status;
 
+    /**
+     * Creates a new {@link ChatMember} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link ChatMember}
+     */
     public static ChatMember fromJson(String data) {
         return JsonSerializer.fromJson(data, ChatMember.class);
     }
 
+    /**
+     * Convert a {@link ChatMember} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

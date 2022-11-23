@@ -34,7 +34,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 /**
  * JTBA; tech.digitaldojo.jtba.data.types:Dice
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#dice">/bots/api#dice</a>
  * @since 23.11.2022
  */
@@ -42,13 +42,31 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 @lombok.Data
 public class Dice implements Data {
 
+    /**
+     * Emoji on which the dice throw animation is based
+     */
     public String emoji;
+
+    /**
+     * Value of the dice, 1-6 for “🎲”, “🎯” and “🎳” base emoji, 1-5 for “🏀” and “⚽” base emoji, 1-64 for “🎰” base emoji
+     */
     public long value;
 
+    /**
+     * Creates a new {@link Dice} instance of a given JSON {@link String}.
+     *
+     * @param data JSON {@link String}
+     * @return {@link Dice}
+     */
     public static Dice fromJson(String data) {
         return JsonSerializer.fromJson(data, Dice.class);
     }
 
+    /**
+     * Convert a {@link Dice} instance to a JSON {@link String}
+     *
+     * @return JSON {@link String}
+     */
     @Override
     public String toString() {
         return this.toJson();

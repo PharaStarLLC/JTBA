@@ -38,7 +38,7 @@ import java.util.function.BiConsumer;
 /**
  * JTBA; tech.digitaldojo.jtba.threads:PollingThread
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
 public class PollingThread extends Thread {

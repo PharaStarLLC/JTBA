@@ -41,7 +41,7 @@ import java.util.Date;
 /**
  * JTBA; tech.digitaldojo.jtba.polling:TelegramBotPolling
  *
- * @author LuciferMorningstarDev - https://github.com/LuciferMorningstarDev
+ * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @see <a href="https://core.telegram.org/bots/api#getting-updates">/bots/api#getting-updates</a>
  * @since 22.11.2022
  */
