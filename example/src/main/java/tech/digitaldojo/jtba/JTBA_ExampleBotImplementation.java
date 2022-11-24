@@ -27,9 +27,11 @@
 
 package tech.digitaldojo.jtba;
 
+import tech.digitaldojo.jtba.data.types.Message;
 import tech.digitaldojo.jtba.events.MessageEvents;
 import tech.digitaldojo.jtba.events.TelegramEvents;
-import tech.digitaldojo.jtba.json.JsonSerializer;
+import tech.digitaldojo.jtba.events.TextConsumer;
+import tech.digitaldojo.jtba.settings.WebhookSettings;
 
 /**
  * JTBA; tech.digitaldojo.jtba:JTBA_ExampleBotImplementation
@@ -43,9 +45,31 @@ public class JTBA_ExampleBotImplementation {
 
     public static void main(String[] args) {
         System.out.println("Starting...");
-        String token = args[0];
-        bot = new TelegramBot(token);
 
+        String type = "";
+        String token = args[0];
+
+        switch (type) {
+            case "hook":
+                webhookBot(token);
+                break;
+            default:
+                pollingBot(token);
+                break;
+        }
+    }
+
+    public static void webhookBot(String token) {
+        bot = new TelegramBot(token, new WebhookSettings("0.0.0.0", 8080, false, "egVAFD8DXaVJm7vNJsHITC4TCddJBvD96eKjJxffUCzBKon6b8YxbvDfDVZEwizz", "", "https://digitaldojo.tech/tgbot/example/updates"));
+        on(bot);
+    }
+
+    public static void pollingBot(String token) {
+        bot = new TelegramBot(token);
+        on(bot);
+    }
+
+    static void on(TelegramBot bot) {
         // Add any error handler
         bot.on(TelegramEvents.error, System.out::println);
 
@@ -53,37 +77,35 @@ public class JTBA_ExampleBotImplementation {
         bot.on(TelegramEvents.ready, (user) -> {
             System.out.println("BOT READY!! TelegramEvents.ready: " + user);
         });
+
         // listen for events
         bot.on(TelegramEvents.chat_join_request, (message) -> {
             System.out.println("TelegramEvents.chat_join_request: " + message);
         });
+
         bot.on(TelegramEvents.callback_query, (message) -> {
             System.out.println("TelegramEvents.callback_query: " + message);
         });
-        // listen for all kinds of messages
+
+        // listen for ALL kinds of messages including Service MESSAGES
         bot.on(TelegramEvents.message, (message) -> {
             System.out.println("TelegramEvents.message: " + message);
         });
+
         // listen for specific kinds of messages
-        bot.on(MessageEvents.text, (message) -> {
-            System.out.println("MessageEvents.text: " + message);
-            String txt = message.text;
-            if (txt.startsWith("-echo ")) {
-                txt = txt.replaceFirst("-echo ", "");
-                bot.sendMessage(message.chat.id, txt);
-            }
-        });
+        bot.on(MessageEvents.text, new TextConsumer(bot)); // adding a custom consumer instance taking the event parameter
+        bot.on(MessageEvents.poll, JTBA_ExampleBotImplementation::onPoll); // adding a method taking the event parameter
+
         bot.on(MessageEvents.new_chat_title, (message) -> {
             System.out.println("MessageEvents.new_chat_title: " + message);
         });
         bot.on(MessageEvents.new_chat_members, (message) -> {
             System.out.println("MessageEvents.new_chat_members: " + message);
         });
-        bot.on(MessageEvents.poll, (message) -> {
-            System.out.println("MessageEvents.poll: " + message);
-        });
+    }
 
-
+    private static void onPoll(Message message) {
+        System.out.println("MessageEvents.poll: " + message);
     }
 
 }
