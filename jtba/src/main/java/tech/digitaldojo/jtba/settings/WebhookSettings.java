@@ -40,7 +40,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class WebhookSettings {
 
-    String httpBind;
-    int port;
+    private String host;
+    private int port;
+    private boolean secure;
+    private String secretToken;
+    private String sslCertificatePath;
+    private String baseUrl;
 
 }

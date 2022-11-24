@@ -31,6 +31,7 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.digitaldojo.jtba.TelegramBot;
 import tech.digitaldojo.jtba.data.types.Update;
+import tech.digitaldojo.jtba.data.types.Updates;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -42,6 +43,10 @@ import java.util.function.BiConsumer;
  * @since 22.11.2022
  */
 public class PollingThread extends Thread {
+
+    @Setter
+    @Getter
+    private Updates updates;
 
     @Setter
     @Getter

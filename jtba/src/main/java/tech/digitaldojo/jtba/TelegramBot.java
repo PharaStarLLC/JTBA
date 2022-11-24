@@ -31,8 +31,21 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
-import tech.digitaldojo.jtba.data.types.*;
+import tech.digitaldojo.jtba.data.types.CallbackQuery;
+import tech.digitaldojo.jtba.data.types.ChatJoinRequest;
+import tech.digitaldojo.jtba.data.types.ChatMemberUpdated;
+import tech.digitaldojo.jtba.data.types.ChosenInlineResult;
+import tech.digitaldojo.jtba.data.types.InlineQuery;
+import tech.digitaldojo.jtba.data.types.Message;
+import tech.digitaldojo.jtba.data.types.Poll;
+import tech.digitaldojo.jtba.data.types.PollAnswer;
+import tech.digitaldojo.jtba.data.types.PreCheckoutQuery;
+import tech.digitaldojo.jtba.data.types.ShippingQuery;
+import tech.digitaldojo.jtba.data.types.Update;
+import tech.digitaldojo.jtba.data.types.Updates;
+import tech.digitaldojo.jtba.data.types.User;
 import tech.digitaldojo.jtba.errors.ParseError;
+import tech.digitaldojo.jtba.errors.TelegramError;
 import tech.digitaldojo.jtba.events.EventEmitter;
 import tech.digitaldojo.jtba.events.MessageEvents;
 import tech.digitaldojo.jtba.events.TelegramEvents;
@@ -41,6 +54,7 @@ import tech.digitaldojo.jtba.polling.TelegramBotPolling;
 import tech.digitaldojo.jtba.settings.TelegramBotSettings;
 import tech.digitaldojo.jtba.settings.WebhookSettings;
 import tech.digitaldojo.jtba.threads.PollingThread;
+import tech.digitaldojo.jtba.webhook.TelegramBotWebHook;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -48,7 +62,11 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.http.HttpClient;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Consumer;
 
 /**
@@ -60,6 +78,7 @@ import java.util.function.Consumer;
  */
 public class TelegramBot extends EventEmitter {
 
+    @Getter
     private static TelegramBot instance;
     protected final String token;
     @Getter
@@ -68,6 +87,7 @@ public class TelegramBot extends EventEmitter {
     private User myUser;
     private HttpClient httpClient;
     private TelegramBotPolling polling;
+    private TelegramBotWebHook webhook;
 
     /**
      * Create a new instance of a telegram bot with polling enabled {@link TelegramBotPolling}
@@ -77,6 +97,9 @@ public class TelegramBot extends EventEmitter {
      */
     public TelegramBot(String token) {
         super();
+        if (instance != null) {
+            throw new RuntimeException("TelegramBot can only instantiated once.");
+        }
         instance = this;
         this.token = token;
         this.settings = new TelegramBotSettings(false, true, 300, JTBAConstants.TG_API_BASE_URL, null, null);
@@ -93,9 +116,29 @@ public class TelegramBot extends EventEmitter {
      */
     public TelegramBot(String token, TelegramBotSettings settings) {
         super();
+        if (instance != null) {
+            throw new RuntimeException("TelegramBot can only instantiated once.");
+        }
         instance = this;
         this.token = token;
         this.settings = settings;
+        new Thread(() -> this.init()).start();
+    }
+
+    /**
+     * Create a new instance of a telegram bot with webhook enabled {@link TelegramBotWebHook}
+     *
+     * @param token    the token given by <a href="https://t.me/BotFather">@BotFather</a>
+     * @param settings the {@link WebhookSettings}
+     */
+    public TelegramBot(String token, WebhookSettings settings) {
+        super();
+        if (instance != null) {
+            throw new RuntimeException("TelegramBot can only instantiated once.");
+        }
+        instance = this;
+        this.token = token;
+        this.settings = new TelegramBotSettings(false, false, 300, JTBAConstants.TG_API_BASE_URL, null, settings);
         new Thread(() -> this.init()).start();
     }
 
@@ -140,7 +183,9 @@ public class TelegramBot extends EventEmitter {
      * stop telegram update polling
      */
     public void stopPolling() {
-        this.polling.stop();
+        if (this.polling != null) {
+            this.polling.stop();
+        }
         this.polling = null;
     }
 
@@ -148,7 +193,15 @@ public class TelegramBot extends EventEmitter {
      * Opens a webhook server depending on {@link WebhookSettings} specified in {@link TelegramBotSettings}
      */
     public void openWebhook() {
+        this.webhook = new TelegramBotWebHook(this);
+        this.webhook.start();
+    }
 
+    public void closeWebhook() {
+        if (this.webhook != null) {
+            this.webhook.stop();
+        }
+        this.webhook = null;
     }
 
     private void error(Exception e) {
@@ -245,21 +298,24 @@ public class TelegramBot extends EventEmitter {
         return new PollingThread() {
             @Override
             public void run() {
-                List<Update> updates = new ArrayList<>();
                 try {
-                    JsonArray array;
                     try {
-                        array = instance.request("/getUpdates", formData).getAsJsonObject().get("result").getAsJsonArray();
+                        String data = instance.request("/getUpdates", formData).getAsJsonObject().toString();
+                        if (data == null || data.equals("")) {
+                            throw new TelegramError("Could not reach API");
+                        }
+                        this.setUpdates(Updates.fromJson(data));
                     } catch (Exception e) {
                         throw new ParseError("Could not parse returned data.");
                     }
-                    try {
-                        array.forEach(update -> updates.add(Update.fromJson(update.getAsJsonObject().toString())));
-                    } catch (Exception e) {
-                        throw new ParseError("Could not parse some of the returned data.");
+                    if (getUpdates() == null) {
+                        throw new ParseError("Could not parse returned updates data.");
+                    }
+                    if (getUpdates().getResult() == null) {
+                        setUpdates(new Updates(true, new ArrayList<>()));
                     }
                     if (this.getWhenDone() != null) {
-                        this.getWhenDone().accept(instance, updates);
+                        this.getWhenDone().accept(instance, getUpdates().getResult());
                     }
                 } catch (Exception ex) {
                     if (this.getOnError() != null) {
@@ -267,7 +323,7 @@ public class TelegramBot extends EventEmitter {
                     }
                 } finally {
                     if (this.getAfterAll() != null) {
-                        this.getAfterAll().accept(instance, null);
+                        this.getAfterAll().accept(instance, getUpdates().getResult());
                     }
                 }
             }
@@ -407,7 +463,7 @@ public class TelegramBot extends EventEmitter {
     }
 
     /**
-     * Send text message.
+     * Use this method to send text messages. On success, the sent Message is returned.
      *
      * @param chatId   the id if the chat to send the message in
      * @param message  the content of the message
@@ -422,7 +478,7 @@ public class TelegramBot extends EventEmitter {
     }
 
     /**
-     * Send text message.
+     * Use this method to send text messages. On success, the sent Message is returned.
      * {@link TelegramBot#sendMessage(long, String, JsonObject)}
      *
      * @param chatId  the id if the chat to send the message in
@@ -432,6 +488,88 @@ public class TelegramBot extends EventEmitter {
      */
     public Message sendMessage(long chatId, String message) {
         return sendMessage(chatId, message, new JsonObject());
+    }
+
+    /**
+     * Use this method to log out from the cloud Bot API server before
+     * launching the bot locally. You must log out the bot before
+     * running it locally, otherwise there is no guarantee that the bot
+     * will receive updates.
+     * <br />
+     * After a successful call, you can immediately log in on a local
+     * server, but will not be able to log in back to the cloud Bot API
+     * server for 10 minutes.
+     * <br />
+     * Returns True on success. Requires no parameters.
+     *
+     * @return success
+     */
+    public boolean logOut() {
+        return this.request("/logOut").getAsJsonPrimitive().getAsBoolean();
+    }
+
+    /**
+     * Use this method to close the bot instance before moving it from
+     * one local server to another. You need to delete the webhook
+     * before calling this method to ensure that the bot isn't
+     * launched again after server restart.
+     * <br />
+     * The method will return error 429 in the first 10 minutes after
+     * the bot is launched.
+     * <br />
+     * Returns True on success. Requires no parameters.
+     *
+     * @return success
+     */
+    public boolean close() {
+        return this.request("/close").getAsJsonPrimitive().getAsBoolean();
+    }
+
+    /**
+     * Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+     *
+     * @param chat_id              Unique identifier for the target chat
+     * @param from_chat_id         Unique identifier for the chat where the original message was sent
+     * @param message_id           Message identifier in the chat specified in from_chat_id
+     * @param disable_notification Sends the message silently. Users will receive a notification with no sound.
+     * @param protect_content      Protects the contents of the forwarded message from forwarding and saving
+     * @return {@link Message}
+     * @see <a href="https://core.telegram.org/bots/api#forwardmessage">/bots/api#forwardmessage</a>
+     */
+    public Message forwardMessage(long chat_id, long from_chat_id, long message_id, boolean disable_notification, boolean protect_content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("chat_id", chat_id);
+        formData.addProperty("from_chat_id", from_chat_id);
+        formData.addProperty("message_id", message_id);
+        formData.addProperty("disable_notification", disable_notification);
+        formData.addProperty("protect_content", protect_content);
+        return Message.fromJson(this.request("/forwardMessage", formData).getAsJsonObject().toString());
+    }
+
+    /**
+     * Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+     *
+     * @param message The message to forward
+     * @param chat_id Unique identifier for the target chat
+     * @return {@link Message}
+     * @see <a href="https://core.telegram.org/bots/api#forwardmessage">/bots/api#forwardmessage</a>
+     */
+    public Message forwardMessage(Message message, long chat_id) {
+        return forwardMessage(chat_id, message.chat.id, message.message_id, false, false);
+    }
+
+    /**
+     * Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+     *
+     * @param message              The message to forward
+     * @param chat_id              Unique identifier for the target chat
+     * @param disable_notification Sends the message silently. Users will receive a notification with no sound.
+     * @param protect_content      Protects the contents of the forwarded message from forwarding and saving
+     * @return {@link Message}
+     * @see <a href="https://core.telegram.org/bots/api#forwardmessage">/bots/api#forwardmessage</a>
+     */
+    public Message forwardMessage(Message message, long chat_id, boolean disable_notification, boolean protect_content) {
+        return forwardMessage(chat_id, message.chat.id, message.message_id, disable_notification, protect_content);
     }
 
 

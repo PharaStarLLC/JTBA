@@ -59,7 +59,7 @@ public class TelegramBotPolling {
 
     private PollingThread lastRequest = null;
 
-    public TelegramBotPolling(TelegramBot telegramBot) {
+    public TelegramBotPolling(final TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
     }
 
