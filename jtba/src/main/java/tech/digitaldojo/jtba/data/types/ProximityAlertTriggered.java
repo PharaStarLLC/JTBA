@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,13 +39,13 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#proximityalerttriggered">/bots/api#proximityalerttriggered</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ProximityAlertTriggered implements Data {
+public final class ProximityAlertTriggered implements Data {
 
-    public User traveler;
-    public User watcher;
-    public long distance;
+    public final User traveler;
+    public final User watcher;
+    public final long distance;
 
     public static ProximityAlertTriggered fromJson(String data) {
         return JsonSerializer.fromJson(data, ProximityAlertTriggered.class);

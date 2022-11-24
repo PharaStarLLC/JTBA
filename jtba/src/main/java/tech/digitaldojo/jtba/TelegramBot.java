@@ -28,24 +28,12 @@
 package tech.digitaldojo.jtba;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
-import tech.digitaldojo.jtba.data.types.CallbackQuery;
-import tech.digitaldojo.jtba.data.types.ChatJoinRequest;
-import tech.digitaldojo.jtba.data.types.ChatMemberUpdated;
-import tech.digitaldojo.jtba.data.types.ChosenInlineResult;
-import tech.digitaldojo.jtba.data.types.InlineQuery;
 import tech.digitaldojo.jtba.data.types.Message;
-import tech.digitaldojo.jtba.data.types.Poll;
-import tech.digitaldojo.jtba.data.types.PollAnswer;
-import tech.digitaldojo.jtba.data.types.PreCheckoutQuery;
-import tech.digitaldojo.jtba.data.types.ShippingQuery;
 import tech.digitaldojo.jtba.data.types.Update;
 import tech.digitaldojo.jtba.data.types.Updates;
 import tech.digitaldojo.jtba.data.types.User;
-import tech.digitaldojo.jtba.errors.ParseError;
-import tech.digitaldojo.jtba.errors.TelegramError;
 import tech.digitaldojo.jtba.events.EventEmitter;
 import tech.digitaldojo.jtba.events.MessageEvents;
 import tech.digitaldojo.jtba.events.TelegramEvents;
@@ -53,7 +41,6 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
 import tech.digitaldojo.jtba.polling.TelegramBotPolling;
 import tech.digitaldojo.jtba.settings.TelegramBotSettings;
 import tech.digitaldojo.jtba.settings.WebhookSettings;
-import tech.digitaldojo.jtba.threads.PollingThread;
 import tech.digitaldojo.jtba.webhook.TelegramBotWebHook;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -149,24 +136,20 @@ public class TelegramBot extends EventEmitter {
     private void init() {
         this.httpClient = HttpClient.newBuilder().build();
 
-        if (this.settings.getBaseUrl() == null) {
-            this.settings.setBaseUrl(JTBAConstants.TG_API_BASE_URL);
-        }
-
         this.myUser = this.getMe();
 
-        if (this.settings.isPollingEnabled()) {
+        if (this.settings.pollingEnabled) {
             this.startPolling();
         }
 
-        if (this.settings.getWebhookSettings() != null) {
+        if (this.settings.webhookSettings != null) {
             this.openWebhook();
         }
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                emit(TelegramEvents.ready, myUser);
+                emit(TelegramEvents.ready, Update.fromJson("{\"me\": " + myUser + "}"));
             }
         }, 50);
     }
@@ -205,10 +188,7 @@ public class TelegramBot extends EventEmitter {
     }
 
     private void error(Exception e) {
-        JsonObject json = new JsonObject();
-        json.addProperty("message", e.getMessage());
-        json.addProperty("stack", String.valueOf(e.getStackTrace()));
-        this.emit(TelegramEvents.error, json);
+        this.emit(TelegramEvents.error, Update.fromJson("{\"error\": true}"));
     }
 
     /**
@@ -218,7 +198,7 @@ public class TelegramBot extends EventEmitter {
      * @return {@link String} url as string
      */
     public String buildUrl(String path) {
-        return this.settings.getBaseUrl() + "/bot" + this.token + (this.settings.isTestEnvironment() ? "/test" : "") + path;
+        return this.settings.baseUrl + "/bot" + this.token + (this.settings.testEnvironment ? "/test" : "") + path;
     }
 
     /**
@@ -226,10 +206,10 @@ public class TelegramBot extends EventEmitter {
      * {@link TelegramBot#request(String, Object)}
      *
      * @param path
-     * @return {@link JsonObject} data returned from telegram api
+     * @return {@link String} JSON data returned from telegram api
      * @see <a href="https://core.telegram.org/bots/api#making-requests">/bots/api#making-requests</a>
      */
-    public JsonElement request(String path) {
+    public String request(String path) {
         return request(path, new Object());
     }
 
@@ -238,10 +218,10 @@ public class TelegramBot extends EventEmitter {
      *
      * @param path     API method path like '/getMe' or '/getChat'
      * @param formData any object which is serialized to form data or json depending on the request
-     * @return {@link JsonObject} data returned from telegram api
+     * @return {@link String} JSON data returned from telegram api
      * @see <a href="https://core.telegram.org/bots/api#making-requests">/bots/api#making-requests</a>
      */
-    public JsonElement request(String path, Object formData) {
+    public String request(String path, Object formData) {
         try {
             if (formData == null) {
                 formData = new Object();
@@ -280,10 +260,10 @@ public class TelegramBot extends EventEmitter {
             in.close();
             connection.getResponseCode();
             connection.disconnect();
-            return JsonSerializer.fromJson(response.toString());
+            return response.toString();
         } catch (Exception e) {
-            error(e);
-            return new JsonObject();
+            e.printStackTrace();
+            return "{}";
         }
     }
 
@@ -291,74 +271,29 @@ public class TelegramBot extends EventEmitter {
      * Resolve updates of the api
      *
      * @param formData
-     * @return @return {@link PollingThread}
+     * @return {@link Updates}
      * @see <a href="https://core.telegram.org/bots/api#getupdates">/bots/api#getupdates</a>
      */
-    public PollingThread getUpdates(JsonObject formData) {
-        return new PollingThread() {
-            @Override
-            public void run() {
-                try {
-                    try {
-                        String data = instance.request("/getUpdates", formData).getAsJsonObject().toString();
-                        if (data == null || data.equals("")) {
-                            throw new TelegramError("Could not reach API");
-                        }
-                        this.setUpdates(Updates.fromJson(data));
-                    } catch (Exception e) {
-                        throw new ParseError("Could not parse returned data.");
-                    }
-                    if (getUpdates() == null) {
-                        throw new ParseError("Could not parse returned updates data.");
-                    }
-                    if (getUpdates().getResult() == null) {
-                        setUpdates(new Updates(true, new ArrayList<>()));
-                    }
-                    if (this.getWhenDone() != null) {
-                        this.getWhenDone().accept(instance, getUpdates().getResult());
-                    }
-                } catch (Exception ex) {
-                    if (this.getOnError() != null) {
-                        this.getOnError().accept(instance, ex);
-                    }
-                } finally {
-                    if (this.getAfterAll() != null) {
-                        this.getAfterAll().accept(instance, getUpdates().getResult());
-                    }
-                }
-            }
-        };
+    public Updates getUpdates(JsonObject formData) {
+        return Updates.fromJson(this.request("", formData));
     }
 
     /**
      * This method takes a update object as {@link JsonObject} and fires the specifie events
      * {@link EventEmitter#emit(MessageEvents, Message)}
-     * or {@link EventEmitter#emit(TelegramEvents, Object)}
+     * or {@link EventEmitter#emit(TelegramEvents, Update)}
      * <br>
      * To add a listener use {@link EventEmitter#on(MessageEvents, Consumer<Message>)}
-     * or {@link EventEmitter#on(TelegramEvents, Consumer<Object>)}
+     * or {@link EventEmitter#on(TelegramEvents, Consumer<Update>)}
      *
      * @param update
      */
     public void processUpdate(Update update) {
         try {
             long now = new Date().getTime();
-            Message message = update.message;
-            Message editedMessage = update.edited_message;
-            Message channelPost = update.channel_post;
-            Message editedChannelPost = update.edited_channel_post;
-            InlineQuery inlineQuery = update.inline_query;
-            ChosenInlineResult chosenInlineResult = update.chosen_inline_result;
-            CallbackQuery callbackQuery = update.callback_query;
-            ShippingQuery shippingQuery = update.shipping_query;
-            PreCheckoutQuery preCheckoutQuery = update.pre_checkout_query;
-            Poll poll = update.poll;
-            PollAnswer pollAnswer = update.poll_answer;
-            ChatMemberUpdated chatMember = update.chat_member;
-            ChatMemberUpdated myChatMember = update.my_chat_member;
-            ChatJoinRequest chatJoinRequest = update.chat_join_request;
-            if (message != null) {
-                long secondOfAction = message.date;
+
+            if (update.message != null) {
+                long secondOfAction = update.message.date;
                 if (secondOfAction <= 0) {
                     secondOfAction = now / 1000;
                 }
@@ -368,9 +303,9 @@ public class TelegramBot extends EventEmitter {
                 JsonObject meta = new JsonObject();
                 String type = "";
                 List<MessageEvents> toFire = new ArrayList<>();
-                this.emit(TelegramEvents.message, message);
+                this.emit(TelegramEvents.message, update);
                 for (MessageEvents messageEvents : MessageEvents.values()) {
-                    if (!message.toString().contains("\"" + messageEvents + "\":")) {
+                    if (!update.message.toString().contains("\"" + messageEvents + "\":")) {
                         continue;
                     }
                     toFire.add(messageEvents);
@@ -379,62 +314,103 @@ public class TelegramBot extends EventEmitter {
                     this.emit(MessageEvents.unknown, Message.fromJson("{}"));
                     return;
                 }
-                toFire.forEach(e -> this.emit(e, Message.fromJson(message.toString())));
-            } else if (editedMessage != null) {
-                long secondOfAction = editedMessage.date;
-                if (secondOfAction <= 0) {
-                    secondOfAction = now / 1000;
-                }
-                if (now / 1000 - secondOfAction > 5) {
-                    return; // returns if the update is older than 5 seconds
-                }
-                this.emit(TelegramEvents.edited_message, editedMessage);
-                if (editedMessage.text != null) {
-                    this.emit(TelegramEvents.edited_message_text, editedMessage);
-                }
-                if (editedMessage.caption != null) {
-                    this.emit(TelegramEvents.edited_message_caption, editedMessage);
-                }
-            } else if (channelPost != null) {
-                long secondOfAction = channelPost.date;
-                if (secondOfAction <= 0) {
-                    secondOfAction = now / 1000;
-                }
-                if (now / 1000 - secondOfAction > 5) {
-                    return; // returns if the update is older than 5 seconds
-                }
-                this.emit(TelegramEvents.channel_post, channelPost);
-            } else if (editedChannelPost != null) {
-                this.emit(TelegramEvents.edited_channel_post, editedChannelPost);
-                if (editedChannelPost.text != null) {
-                    this.emit(TelegramEvents.edited_channel_post_text, editedChannelPost);
-                }
-                if (editedChannelPost.caption != null) {
-                    this.emit(TelegramEvents.edited_channel_post_caption, editedChannelPost);
-                }
-            } else if (inlineQuery != null) {
-                this.emit(TelegramEvents.inline_query, inlineQuery);
-            } else if (chosenInlineResult != null) {
-                this.emit(TelegramEvents.chosen_inline_result, chosenInlineResult);
-            } else if (callbackQuery != null) {
-                this.emit(TelegramEvents.callback_query, callbackQuery);
-            } else if (shippingQuery != null) {
-                this.emit(TelegramEvents.shipping_query, shippingQuery);
-            } else if (preCheckoutQuery != null) {
-                this.emit(TelegramEvents.pre_checkout_query, preCheckoutQuery);
-            } else if (poll != null) {
-                this.emit(TelegramEvents.poll, poll);
-            } else if (pollAnswer != null) {
-                this.emit(TelegramEvents.poll_answer, pollAnswer);
-            } else if (chatMember != null) {
-                this.emit(TelegramEvents.chat_member, chatMember);
-            } else if (myChatMember != null) {
-                this.emit(TelegramEvents.my_chat_member, myChatMember);
-            } else if (chatJoinRequest != null) {
-                this.emit(TelegramEvents.chat_join_request, chatJoinRequest);
-            } else {
-                this.emit(TelegramEvents.unknown, new JsonObject());
+                toFire.forEach(e -> this.emit(e, update.message));
+                return;
             }
+
+            if (update.edited_message != null) {
+                long secondOfAction = update.edited_message.date;
+                if (secondOfAction <= 0) {
+                    secondOfAction = now / 1000;
+                }
+                if (now / 1000 - secondOfAction > 5) {
+                    return; // returns if the update is older than 5 seconds
+                }
+                this.emit(TelegramEvents.edited_message, update);
+                if (update.edited_message.text != null) {
+                    this.emit(TelegramEvents.edited_message_text, update);
+                }
+                if (update.edited_message.caption != null) {
+                    this.emit(TelegramEvents.edited_message_caption, update);
+                }
+                return;
+            }
+
+            if (update.channel_post != null) {
+                long secondOfAction = update.channel_post.date;
+                if (secondOfAction <= 0) {
+                    secondOfAction = now / 1000;
+                }
+                if (now / 1000 - secondOfAction > 5) {
+                    return; // returns if the update is older than 5 seconds
+                }
+                this.emit(TelegramEvents.channel_post, update);
+                return;
+            }
+
+            if (update.edited_channel_post != null) {
+                this.emit(TelegramEvents.edited_channel_post, update);
+                if (update.edited_channel_post.text != null) {
+                    this.emit(TelegramEvents.edited_channel_post_text, update);
+                }
+                if (update.edited_channel_post.caption != null) {
+                    this.emit(TelegramEvents.edited_channel_post_caption, update);
+                }
+                return;
+            }
+
+            if (update.inline_query != null) {
+                this.emit(TelegramEvents.inline_query, update);
+                return;
+            }
+
+            if (update.chosen_inline_result != null) {
+                this.emit(TelegramEvents.chosen_inline_result, update);
+                return;
+            }
+
+            if (update.callback_query != null) {
+                this.emit(TelegramEvents.callback_query, update);
+                return;
+            }
+
+            if (update.shipping_query != null) {
+                this.emit(TelegramEvents.shipping_query, update);
+                return;
+            }
+
+            if (update.pre_checkout_query != null) {
+                this.emit(TelegramEvents.pre_checkout_query, update);
+                return;
+            }
+
+            if (update.poll != null) {
+                this.emit(TelegramEvents.poll, update);
+                return;
+            }
+
+            if (update.poll_answer != null) {
+                this.emit(TelegramEvents.poll_answer, update);
+                return;
+            }
+
+            if (update.chat_member != null) {
+                this.emit(TelegramEvents.chat_member, update);
+                return;
+            }
+
+            if (update.my_chat_member != null) {
+                this.emit(TelegramEvents.my_chat_member, update);
+                return;
+            }
+
+            if (update.chat_join_request != null) {
+                this.emit(TelegramEvents.chat_join_request, update);
+                return;
+            }
+
+            this.emit(TelegramEvents.unknown, update);
+
         } catch (Exception e) {
             error(e);
         }
@@ -448,7 +424,7 @@ public class TelegramBot extends EventEmitter {
      * @see <a href="https://core.telegram.org/bots/api#getme">/bots/api#getme</a>
      */
     public User getMe(JsonObject formData) {
-        return User.fromJson(this.request("/getMe", formData).getAsJsonObject().toString());
+        return User.fromJson(this.request("/getMe", formData));
     }
 
     /**
@@ -474,7 +450,7 @@ public class TelegramBot extends EventEmitter {
     public Message sendMessage(long chatId, String message, JsonObject formData) {
         formData.addProperty("chat_id", chatId);
         formData.addProperty("text", message);
-        return Message.fromJson(this.request("/sendMessage", formData).getAsJsonObject().toString());
+        return Message.fromJson(this.request("/sendMessage", formData));
     }
 
     /**
@@ -505,7 +481,7 @@ public class TelegramBot extends EventEmitter {
      * @return success
      */
     public boolean logOut() {
-        return this.request("/logOut").getAsJsonPrimitive().getAsBoolean();
+        return this.request("/logOut") != null;
     }
 
     /**
@@ -522,7 +498,7 @@ public class TelegramBot extends EventEmitter {
      * @return success
      */
     public boolean close() {
-        return this.request("/close").getAsJsonPrimitive().getAsBoolean();
+        return this.request("/close") != null;
     }
 
     /**
@@ -543,7 +519,7 @@ public class TelegramBot extends EventEmitter {
         formData.addProperty("message_id", message_id);
         formData.addProperty("disable_notification", disable_notification);
         formData.addProperty("protect_content", protect_content);
-        return Message.fromJson(this.request("/forwardMessage", formData).getAsJsonObject().toString());
+        return Message.fromJson(this.request("/forwardMessage", formData));
     }
 
     /**

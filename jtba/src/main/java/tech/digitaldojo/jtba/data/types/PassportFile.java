@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,14 +39,14 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#passportfile">/bots/api#passportfile</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class PassportFile implements Data {
+public final class PassportFile implements Data {
 
-    public String file_id;
-    public String file_unique_id;
-    public long file_size;
-    public long file_date;
+    public final String file_id;
+    public final String file_unique_id;
+    public final long file_size;
+    public final long file_date;
 
     public static PassportFile fromJson(String data) {
         return JsonSerializer.fromJson(data, PassportFile.class);

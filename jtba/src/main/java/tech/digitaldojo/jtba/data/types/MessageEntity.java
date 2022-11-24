@@ -27,6 +27,8 @@
 
 package tech.digitaldojo.jtba.data.types;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -37,15 +39,17 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#messageentity">/bots/api#messageentity</a>
  * @since 23.11.2022
  */
-public class MessageEntity implements Data {
+@EqualsAndHashCode
+@AllArgsConstructor
+public final class MessageEntity implements Data {
 
-    public String type;
-    public long offset;
-    public long length;
-    public String url;
-    public User user;
-    public String language;
-    public String custom_emoji_id;
+    public final String type;
+    public final long offset;
+    public final long length;
+    public final String url;
+    public final User user;
+    public final String language;
+    public final String custom_emoji_id;
 
     public static MessageEntity fromJson(String data) {
         return JsonSerializer.fromJson(data, MessageEntity.class);

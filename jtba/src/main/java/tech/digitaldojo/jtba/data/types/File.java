@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,29 +39,29 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#file">/bots/api#file</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class File implements Data {
+public final class File implements Data {
 
     /**
      * Identifier for this file, which can be used to download or reuse the file
      */
-    public String file_id;
+    public final String file_id;
 
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
      */
-    public String file_unique_id;
+    public final String file_unique_id;
 
     /**
      * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
      */
-    public long file_size;
+    public final long file_size;
 
     /**
      * Optional. File path. Use <code style="color: red; background-color: black;">https://api.telegram.org/file/bot{token}/{file_path}</code> to get the file.
      */
-    public long file_path;
+    public final long file_path;
 
     /**
      * Creates a new {@link File} instance of a given JSON {@link String}.

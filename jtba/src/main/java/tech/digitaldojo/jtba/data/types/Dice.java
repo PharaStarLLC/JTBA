@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,19 +39,19 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#dice">/bots/api#dice</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Dice implements Data {
+public final class Dice implements Data {
 
     /**
      * Emoji on which the dice throw animation is based
      */
-    public String emoji;
+    public final String emoji;
 
     /**
      * Value of the dice, 1-6 for “🎲”, “🎯” and “🎳” base emoji, 1-5 for “🏀” and “⚽” base emoji, 1-64 for “🎰” base emoji
      */
-    public long value;
+    public final long value;
 
     /**
      * Creates a new {@link Dice} instance of a given JSON {@link String}.

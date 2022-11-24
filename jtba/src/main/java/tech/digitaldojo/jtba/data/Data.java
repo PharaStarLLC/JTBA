@@ -42,6 +42,4 @@ public interface Data {
         return JsonSerializer.toJson(this);
     }
 
-    String toString();
-
 }

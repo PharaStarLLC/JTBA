@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,14 +39,14 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#orderinfo">/bots/api#orderinfo</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class OrderInfo implements Data {
+public final class OrderInfo implements Data {
 
-    public String name;
-    public String phone_number;
-    public String email;
-    public ShippingAddress shipping_address;
+    public final String name;
+    public final String phone_number;
+    public final String email;
+    public final ShippingAddress shipping_address;
 
     public static OrderInfo fromJson(String data) {
         return JsonSerializer.fromJson(data, OrderInfo.class);

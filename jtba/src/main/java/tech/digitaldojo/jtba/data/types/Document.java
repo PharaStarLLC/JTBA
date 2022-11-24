@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,39 +39,39 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#document">/bots/api#document</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Document implements Data {
+public final class Document implements Data {
 
     /**
      * Identifier for this file, which can be used to download or reuse the file
      */
-    public String file_id;
+    public final String file_id;
 
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
      */
-    public String file_unique_id;
+    public final String file_unique_id;
 
     /**
      * Optional. Document thumbnail as defined by sender
      */
-    public PhotoSize thumb;
+    public final PhotoSize thumb;
 
     /**
      * Optional. Original filename as defined by sender
      */
-    public String file_name;
+    public final String file_name;
 
     /**
      * Optional. MIME type of the file as defined by sender
      */
-    public String mime_type;
+    public final String mime_type;
 
     /**
      * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
      */
-    public long file_size;
+    public final long file_size;
 
     /**
      * Creates a new {@link Document} instance of a given JSON {@link String}.

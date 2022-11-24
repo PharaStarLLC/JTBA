@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,17 +39,17 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#inlinequery">/bots/api#inlinequery</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class InlineQuery implements Data {
+public final class InlineQuery implements Data {
     // TODO: continue API docs...
 
-    public String id;
-    public User from;
-    public String query;
-    public String offset;
-    public String chat_type;
-    public Location location;
+    public final String id;
+    public final User from;
+    public final String query;
+    public final String offset;
+    public final String chat_type;
+    public final Location location;
 
     public static InlineQuery fromJson(String data) {
         return JsonSerializer.fromJson(data, InlineQuery.class);

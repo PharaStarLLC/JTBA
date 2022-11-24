@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,24 +39,24 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#sticker">/bots/api#sticker</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Sticker implements Data {
+public final class Sticker implements Data {
 
-    public String file_id;
-    public String file_unique_id;
-    public String type;
-    public long width;
-    public long height;
-    public boolean is_animated;
-    public boolean is_video;
-    public PhotoSize thumb;
-    public String emoji;
-    public String set_name;
-    public File premium_animation;
-    public MaskPosition mask_position;
-    public String custom_emoji_id;
-    public long file_size;
+    public final String file_id;
+    public final String file_unique_id;
+    public final String type;
+    public final long width;
+    public final long height;
+    public final boolean is_animated;
+    public final boolean is_video;
+    public final PhotoSize thumb;
+    public final String emoji;
+    public final String set_name;
+    public final File premium_animation;
+    public final MaskPosition mask_position;
+    public final String custom_emoji_id;
+    public final long file_size;
 
     public static Sticker fromJson(String data) {
         return JsonSerializer.fromJson(data, Sticker.class);

@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -40,14 +41,14 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#inlinekeyboardmarkup">/bots/api#inlinekeyboardmarkup</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class InlineKeyboardMarkup implements Data {
+public final class InlineKeyboardMarkup implements Data {
 
     /**
      * List of button rows, each represented by a List of {@link InlineKeyboardButton} objects
      */
-    public List<List<InlineKeyboardButton>> inline_keyboard;
+    public final List<List<InlineKeyboardButton>> inline_keyboard;
 
     /**
      * Creates a new {@link InlineKeyboardMarkup} instance of a given JSON {@link String}.

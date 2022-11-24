@@ -58,5 +58,5 @@ public enum ChatMemberType {
     /**
      * {@link ChatMemberBanned}
      */
-    BANNED;
+    BANNED
 }

@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,16 +39,16 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#videonote">/bots/api#videonote</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class VideoNote implements Data {
+public final class VideoNote implements Data {
 
-    public String file_id;
-    public String file_unique_id;
-    public long length;
-    public long duration;
-    public PhotoSize thumb;
-    public long file_size;
+    public final String file_id;
+    public final String file_unique_id;
+    public final long length;
+    public final long duration;
+    public final PhotoSize thumb;
+    public final long file_size;
 
     public static VideoNote fromJson(String data) {
         return JsonSerializer.fromJson(data, VideoNote.class);

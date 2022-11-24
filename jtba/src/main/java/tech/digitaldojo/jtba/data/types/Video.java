@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,19 +39,19 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#video">/bots/api#video</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Video implements Data {
+public final class Video implements Data {
 
-    public String file_id;
-    public String file_unique_id;
-    public long width;
-    public long height;
-    public long duration;
-    public PhotoSize thumb;
-    public String file_name;
-    public String mime_type;
-    public long file_size;
+    public final String file_id;
+    public final String file_unique_id;
+    public final long width;
+    public final long height;
+    public final long duration;
+    public final PhotoSize thumb;
+    public final String file_name;
+    public final String mime_type;
+    public final long file_size;
 
     public static Video fromJson(String data) {
         return JsonSerializer.fromJson(data, Video.class);

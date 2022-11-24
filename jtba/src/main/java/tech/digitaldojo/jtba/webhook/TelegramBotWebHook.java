@@ -27,7 +27,6 @@
 
 package tech.digitaldojo.jtba.webhook;
 
-import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -70,11 +69,11 @@ public class TelegramBotWebHook {
     }
 
     public void start() {
-        if (telegramBot.getSettings().getWebhookSettings().getSecretToken().length() < 64) {
+        if (telegramBot.getSettings().webhookSettings.secretToken.length() < 64) {
             error(new FatalError("Secret token must have a minimum length of 64 characters."));
             return;
         }
-        if (telegramBot.getSettings().getWebhookSettings().getSecretToken().length() > 256) {
+        if (telegramBot.getSettings().webhookSettings.secretToken.length() > 256) {
             error(new FatalError("Secret token must have a maximum length of 256 characters."));
             return;
         }
@@ -85,11 +84,11 @@ public class TelegramBotWebHook {
         }
         this.webhookThread = new Thread(() -> {
             try {
-                boolean secure = telegramBot.getSettings().getWebhookSettings().isSecure();
-                URL webhookUrl = new URL(telegramBot.getSettings().getWebhookSettings().getBaseUrl());
+                boolean secure = telegramBot.getSettings().webhookSettings.secure;
+                URL webhookUrl = new URL(telegramBot.getSettings().webhookSettings.baseUrl);
                 if (secure) {
-                    HttpsServer server = HttpsServer.create(new InetSocketAddress(telegramBot.getSettings().getWebhookSettings().getHost(), telegramBot.getSettings().getWebhookSettings().getPort()), 0);
-                    InputStream is = new FileInputStream(telegramBot.getSettings().getWebhookSettings().getSslCertificatePath());
+                    HttpsServer server = HttpsServer.create(new InetSocketAddress(telegramBot.getSettings().webhookSettings.host, telegramBot.getSettings().webhookSettings.port), 0);
+                    InputStream is = new FileInputStream(telegramBot.getSettings().webhookSettings.sslCertificatePath);
                     CertificateFactory cf = CertificateFactory.getInstance("X.509");
                     X509Certificate caCert = (X509Certificate) cf.generateCertificate(is);
                     TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
@@ -104,14 +103,14 @@ public class TelegramBotWebHook {
                     server.createContext("/", new NotFoundHander());
                     server.setExecutor(null); // creates a default executor
                     server.start();
-                    System.out.println(String.format("HTTPS Webhook Opened on %s:%s public URL: %s", telegramBot.getSettings().getWebhookSettings().getHost(), telegramBot.getSettings().getWebhookSettings().getPort(), telegramBot.getSettings().getWebhookSettings().getBaseUrl()));
+                    System.out.println(String.format("HTTPS Webhook Opened on %s:%s public URL: %s", telegramBot.getSettings().webhookSettings.host, telegramBot.getSettings().webhookSettings.port, telegramBot.getSettings().webhookSettings.baseUrl));
                 } else {
-                    HttpServer server = HttpServer.create(new InetSocketAddress(telegramBot.getSettings().getWebhookSettings().getHost(), telegramBot.getSettings().getWebhookSettings().getPort()), 0);
+                    HttpServer server = HttpServer.create(new InetSocketAddress(telegramBot.getSettings().webhookSettings.host, telegramBot.getSettings().webhookSettings.port), 0);
                     server.createContext(webhookUrl.getPath(), new WebhookHander());
                     server.createContext("/", new NotFoundHander());
                     server.setExecutor(null); // creates a default executor
                     server.start();
-                    System.out.println(String.format("HTTP Webhook Opened on %s:%s public URL: %s", telegramBot.getSettings().getWebhookSettings().getHost(), telegramBot.getSettings().getWebhookSettings().getPort(), telegramBot.getSettings().getWebhookSettings().getBaseUrl()));
+                    System.out.println(String.format("HTTP Webhook Opened on %s:%s public URL: %s", telegramBot.getSettings().webhookSettings.host, telegramBot.getSettings().webhookSettings.port, telegramBot.getSettings().webhookSettings.baseUrl));
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -133,6 +132,10 @@ public class TelegramBotWebHook {
         }
     }
 
+    private void error(Exception e) {
+        this.telegramBot.emit(TelegramEvents.polling_error, Update.fromJson("{}"));
+    }
+
     class WebhookHander implements HttpHandler {
 
         @Override
@@ -148,7 +151,7 @@ public class TelegramBotWebHook {
                 return;
             }
 
-            String secret = telegramBot.getSettings().getWebhookSettings().getSecretToken();
+            String secret = telegramBot.getSettings().webhookSettings.secretToken;
             String headerSecret = exchange.getRequestHeaders().getFirst("X-Telegram-Bot-Api-Secret-Token");
             if (headerSecret == null) {
                 headerSecret = exchange.getRequestHeaders().getFirst("x-telegram-bot-api-secret-token");
@@ -206,13 +209,6 @@ public class TelegramBotWebHook {
             os.close();
         }
 
-    }
-
-    private void error(Exception e) {
-        JsonObject json = new JsonObject();
-        json.addProperty("error", e.getMessage());
-        e.printStackTrace();
-        this.telegramBot.emit(TelegramEvents.polling_error, json);
     }
 
 }

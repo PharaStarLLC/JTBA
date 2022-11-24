@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,55 +39,55 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#audio">/bots/api#audio</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Audio implements Data {
+public final class Audio implements Data {
 
     /**
      * Identifier for this file, which can be used to download or reuse the file
      */
-    public String file_id;
+    public final String file_id;
 
     /**
      * Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
      */
-    public String file_unique_id;
+    public final String file_unique_id;
 
     /**
      * Duration of the audio in seconds as defined by sender
      */
-    public long duration;
+    public final long duration;
 
     /**
      * Optional. Performer of the audio as defined by sender or by audio tags
      */
-    public String performer;
+    public final String performer;
 
     /**
      * Optional. Title of the audio as defined by sender or by audio tags
      */
-    public String title;
+    public final String title;
 
     /**
      * Optional. Original filename as defined by sender
      */
-    public String file_name;
+    public final String file_name;
 
     /**
      * Optional. MIME type of the file as defined by sender
      */
-    public String mime_type;
+    public final String mime_type;
 
     /**
      * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
      */
-    public long file_size;
+    public final long file_size;
 
     /**
      * Optional. Thumbnail of the album cover to which the music file belongs
      * {@link PhotoSize}
      */
-    public PhotoSize thumb;
+    public final PhotoSize thumb;
 
     /**
      * Creates a new {@link Audio} instance of a given JSON {@link String}.

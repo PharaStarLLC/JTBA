@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,15 +39,15 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#voice">/bots/api#voice</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Voice implements Data {
+public final class Voice implements Data {
 
-    public String file_id;
-    public String file_unique_id;
-    public long duration;
-    public String mime_type;
-    public long file_size;
+    public final String file_id;
+    public final String file_unique_id;
+    public final long duration;
+    public final String mime_type;
+    public final long file_size;
 
     public static Voice fromJson(String data) {
         return JsonSerializer.fromJson(data, Voice.class);

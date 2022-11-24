@@ -27,8 +27,7 @@
 
 package tech.digitaldojo.jtba.data.types;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
 /**
@@ -38,9 +37,8 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatmemberbanned">/bots/api#chatmemberbanned</a>
  * @since 23.11.2022
  */
-@Getter
-@Setter
-public class ChatMemberBanned extends ChatMember {
+@EqualsAndHashCode
+public final class ChatMemberBanned extends ChatMember {
 
     /**
      * Chat Member Type
@@ -50,7 +48,7 @@ public class ChatMemberBanned extends ChatMember {
     /**
      * Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
      */
-    public long until_date;
+    public final long until_date;
 
     public ChatMemberBanned(final User user, final String status, final long until_date) {
         super(user, status);

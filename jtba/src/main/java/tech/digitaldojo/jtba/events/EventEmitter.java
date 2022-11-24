@@ -29,6 +29,7 @@ package tech.digitaldojo.jtba.events;
 
 import lombok.val;
 import tech.digitaldojo.jtba.data.types.Message;
+import tech.digitaldojo.jtba.data.types.Update;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,14 +46,14 @@ import java.util.function.Consumer;
 public class EventEmitter {
 
     private Map<MessageEvents, List<Consumer<Message>>> messageEvents;
-    private Map<TelegramEvents, List<Consumer<Object>>> events;
+    private Map<TelegramEvents, List<Consumer<Update>>> events;
 
     public EventEmitter() {
         messageEvents = new HashMap<>();
         events = new HashMap<>();
     }
 
-    public boolean on(TelegramEvents event, Consumer<Object> consumer) {
+    public boolean on(TelegramEvents event, Consumer<Update> consumer) {
         if (!events.containsKey(event)) {
             events.put(event, new ArrayList<>());
         }
@@ -60,7 +61,7 @@ public class EventEmitter {
         return true;
     }
 
-    public <T> boolean emit(TelegramEvents event, T message) {
+    public boolean emit(TelegramEvents event, Update message) {
         if (!events.containsKey(event)) {
             return false;
         }

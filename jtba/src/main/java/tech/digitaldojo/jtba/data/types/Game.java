@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -40,39 +41,39 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#game">/bots/api#game</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Game implements Data {
+public final class Game implements Data {
 
     /**
      * Title of the game
      */
-    public String title;
+    public final String title;
 
     /**
      * Description of the game
      */
-    public String description;
+    public final String description;
 
     /**
      * Photo that will be displayed in the game message in chats.
      */
-    public List<PhotoSize> photo;
+    public final List<PhotoSize> photo;
 
     /**
      * Optional. Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls setGameScore, or manually edited using editMessageText. 0-4096 characters.
      */
-    public String text;
+    public final String text;
 
     /**
      * Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
      */
-    public List<MessageEntity> text_entities;
+    public final List<MessageEntity> text_entities;
 
     /**
      * Optional. Animation that will be displayed in the game message in chats. Upload via BotFather
      */
-    public Animation animation;
+    public final Animation animation;
 
     /**
      * Creates a new {@link Game} instance of a given JSON {@link String}.

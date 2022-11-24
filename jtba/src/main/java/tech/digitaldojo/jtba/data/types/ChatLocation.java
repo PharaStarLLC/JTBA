@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,19 +39,19 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatlocation">/bots/api#chatlocation</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
 public class ChatLocation implements Data {
 
     /**
      * The location to which the supergroup is connected. Can't be a live location.
      */
-    public Location location;
+    public final Location location;
 
     /**
      * Location address; 1-64 characters, as defined by the chat owner
      */
-    public String address;
+    public final String address;
 
     /**
      * Creates a new {@link ChatLocation} instance of a given JSON {@link String}.

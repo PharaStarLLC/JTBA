@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,17 +39,17 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#precheckoutquery">/bots/api#precheckoutquery</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class PreCheckoutQuery implements Data {
+public final class PreCheckoutQuery implements Data {
 
-    public String id;
-    public User from;
-    public String currency;
-    public long total_amount;
-    public String invoice_payload;
-    public String shipping_option_id;
-    public OrderInfo order_info;
+    public final String id;
+    public final User from;
+    public final String currency;
+    public final long total_amount;
+    public final String invoice_payload;
+    public final String shipping_option_id;
+    public final OrderInfo order_info;
 
     public static PreCheckoutQuery fromJson(String data) {
         return JsonSerializer.fromJson(data, PreCheckoutQuery.class);

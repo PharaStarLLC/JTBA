@@ -28,7 +28,7 @@
 package tech.digitaldojo.jtba.settings;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * JTBA; tech.digitaldojo.jtba.settings:WebhookSettings
@@ -36,15 +36,15 @@ import lombok.Data;
  * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
-@Data
+@EqualsAndHashCode
 @AllArgsConstructor
-public class WebhookSettings {
+public final class WebhookSettings {
 
-    private String host;
-    private int port;
-    private boolean secure;
-    private String secretToken;
-    private String sslCertificatePath;
-    private String baseUrl;
+    public final String host;
+    public final int port;
+    public final boolean secure;
+    public final String secretToken;
+    public final String sslCertificatePath;
+    public final String baseUrl;
 
 }

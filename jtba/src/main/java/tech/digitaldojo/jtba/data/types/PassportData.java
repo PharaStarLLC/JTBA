@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -40,12 +41,12 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#passportdata">/bots/api#passportdata</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class PassportData implements Data {
+public final class PassportData implements Data {
 
-    public List<EncryptedPassportElement> data;
-    public EncryptedCredentials credentials;
+    public final List<EncryptedPassportElement> data;
+    public final EncryptedCredentials credentials;
 
     public static PassportData fromJson(String data) {
         return JsonSerializer.fromJson(data, PassportData.class);

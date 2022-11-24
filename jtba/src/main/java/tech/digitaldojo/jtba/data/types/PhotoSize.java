@@ -27,6 +27,8 @@
 
 package tech.digitaldojo.jtba.data.types;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -36,13 +38,15 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 23.11.2022
  */
-public class PhotoSize implements Data {
+@EqualsAndHashCode
+@AllArgsConstructor
+public final class PhotoSize implements Data {
 
-    public String file_id;
-    public String file_unique_id;
-    public long width;
-    public long height;
-    public long file_size;
+    public final String file_id;
+    public final String file_unique_id;
+    public final long width;
+    public final long height;
+    public final long file_size;
 
     public static PhotoSize fromJson(String data) {
         return JsonSerializer.fromJson(data, PhotoSize.class);

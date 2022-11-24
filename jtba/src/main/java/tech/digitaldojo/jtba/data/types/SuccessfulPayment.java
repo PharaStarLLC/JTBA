@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,17 +39,17 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#successfulpayment">/bots/api#successfulpayment</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class SuccessfulPayment implements Data {
+public final class SuccessfulPayment implements Data {
 
-    public String currency;
-    public long total_amount;
-    public String invoice_payload;
-    public String shipping_option_id;
-    public OrderInfo order_info;
-    public String telegram_payment_charge_id;
-    public String provider_payment_charge_id;
+    public final String currency;
+    public final long total_amount;
+    public final String invoice_payload;
+    public final String shipping_option_id;
+    public final OrderInfo order_info;
+    public final String telegram_payment_charge_id;
+    public final String provider_payment_charge_id;
 
     public static SuccessfulPayment fromJson(String data) {
         return JsonSerializer.fromJson(data, SuccessfulPayment.class);

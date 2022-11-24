@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,34 +39,34 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#contact">/bots/api#contact</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Contact implements Data {
+public final class Contact implements Data {
 
     /**
      * Contact's phone number
      */
-    public String phone_number;
+    public final String phone_number;
 
     /**
      * Contact's first name
      */
-    public String first_name;
+    public final String first_name;
 
     /**
      * Optional. Contact's last name
      */
-    public String last_name;
+    public final String last_name;
 
     /**
      * Optional. Contact's user identifier in Telegram. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
      */
-    public long user_id;
+    public final long user_id;
 
     /**
      * Optional. Additional data about the contact in the form of a vCard
      */
-    public String vcard;
+    public final String vcard;
 
     /**
      * Creates a new {@link Contact} instance of a given JSON {@link String}.

@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,14 +39,14 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#shippingquery">/bots/api#shippingquery</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ShippingQuery implements Data {
+public final class ShippingQuery implements Data {
 
-    public String id;
-    public User from;
-    public String invoice_payload;
-    public ShippingAddress shipping_address;
+    public final String id;
+    public final User from;
+    public final String invoice_payload;
+    public final ShippingAddress shipping_address;
 
     public static ShippingQuery fromJson(String data) {
         return JsonSerializer.fromJson(data, ShippingQuery.class);

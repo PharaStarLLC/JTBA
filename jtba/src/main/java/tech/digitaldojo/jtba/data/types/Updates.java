@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -40,13 +41,13 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#getting-updates">/bots/api#getting-updates</a>
  * @since 24.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Updates implements Data {
+public final class Updates implements Data {
 
-    public boolean ok;
+    public final boolean ok;
 
-    public List<Update> result;
+    public final List<Update> result;
 
     public static Updates fromJson(String data) {
         return JsonSerializer.fromJson(data, Updates.class);

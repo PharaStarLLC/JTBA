@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -40,24 +41,24 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#poll">/bots/api#poll</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Poll implements Data {
+public final class Poll implements Data {
 
-    public String id;
-    public String question;
-    public String username;
-    public List<PollOption> options;
-    public long total_voter_count;
-    public boolean is_closed;
-    public boolean is_anonymous;
-    public String type;
-    public boolean allows_multiple_answers;
-    public long correct_option_id;
-    public String explanation;
-    public List<MessageEntity> explanation_entities;
-    public long open_period;
-    public long close_date;
+    public final String id;
+    public final String question;
+    public final String username;
+    public final List<PollOption> options;
+    public final long total_voter_count;
+    public final boolean is_closed;
+    public final boolean is_anonymous;
+    public final String type;
+    public final boolean allows_multiple_answers;
+    public final long correct_option_id;
+    public final String explanation;
+    public final List<MessageEntity> explanation_entities;
+    public final long open_period;
+    public final long close_date;
 
     public static Poll fromJson(String data) {
         return JsonSerializer.fromJson(data, Poll.class);

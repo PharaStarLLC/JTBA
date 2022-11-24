@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,25 +39,30 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#update">/bots/api#update</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Update implements Data {
+public final class Update implements Data {
 
-    public long update_id;
-    public Message message;
-    public Message edited_message;
-    public Message channel_post;
-    public Message edited_channel_post;
-    public InlineQuery inline_query;
-    public ChosenInlineResult chosen_inline_result;
-    public CallbackQuery callback_query;
-    public ShippingQuery shipping_query;
-    public PreCheckoutQuery pre_checkout_query;
-    public Poll poll;
-    public PollAnswer poll_answer;
-    public ChatMemberUpdated my_chat_member;
-    public ChatMemberUpdated chat_member;
-    public ChatJoinRequest chat_join_request;
+    public final long update_id;
+
+    public final Message message;
+
+    public final User user;
+
+    public final User me;
+    public final Message edited_message;
+    public final Message channel_post;
+    public final Message edited_channel_post;
+    public final InlineQuery inline_query;
+    public final ChosenInlineResult chosen_inline_result;
+    public final CallbackQuery callback_query;
+    public final ShippingQuery shipping_query;
+    public final PreCheckoutQuery pre_checkout_query;
+    public final Poll poll;
+    public final PollAnswer poll_answer;
+    public final ChatMemberUpdated my_chat_member;
+    public final ChatMemberUpdated chat_member;
+    public final ChatJoinRequest chat_join_request;
 
     public static Update fromJson(String data) {
         return JsonSerializer.fromJson(data, Update.class);

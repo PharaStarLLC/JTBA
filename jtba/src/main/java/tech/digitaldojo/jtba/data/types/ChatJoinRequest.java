@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,34 +39,34 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatjoinrequest">/bots/api#chatjoinrequest</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ChatJoinRequest implements Data {
+public final class ChatJoinRequest implements Data {
 
     /**
      * Chat to which the request was sent
      */
-    public Chat chat;
+    public final Chat chat;
 
     /**
      * User that sent the join request
      */
-    public User from;
+    public final User from;
 
     /**
      * Date the request was sent in Unix time
      */
-    public long date;
+    public final long date;
 
     /**
      * Optional. Bio of the user.
      */
-    public String bio;
+    public final String bio;
 
     /**
      * Optional. Chat invite link that was used by the user to send the join request
      */
-    public ChatInviteLink invite_link;
+    public final ChatInviteLink invite_link;
 
     /**
      * Creates a new {@link ChatJoinRequest} instance of a given JSON {@link String}.

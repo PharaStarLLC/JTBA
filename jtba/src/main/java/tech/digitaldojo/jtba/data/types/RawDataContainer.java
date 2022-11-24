@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,9 +39,9 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="#">THIS IS NO API DATA WRAPPER</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class RawDataContainer implements Data {
+public final class RawDataContainer implements Data {
 
     /**
      * Creates a new {@link RawDataContainer} instance of a given JSON {@link String}.

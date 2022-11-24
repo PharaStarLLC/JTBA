@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 
 /**
@@ -38,9 +39,9 @@ import tech.digitaldojo.jtba.data.Data;
  *         Currently holds no information.
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class VideoChatStarted implements Data {
+public final class VideoChatStarted implements Data {
 
     public static VideoChatStarted fromJson(String data) {
         return new VideoChatStarted();

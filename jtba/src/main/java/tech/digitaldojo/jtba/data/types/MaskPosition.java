@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,14 +39,14 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#maskposition">/bots/api#maskposition</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class MaskPosition implements Data {
+public final class MaskPosition implements Data {
 
-    public String point;
-    public float x_shift;
-    public float y_shift;
-    public float scale;
+    public final String point;
+    public final float x_shift;
+    public final float y_shift;
+    public final float scale;
 
     public static MaskPosition fromJson(String data) {
         return JsonSerializer.fromJson(data, MaskPosition.class);

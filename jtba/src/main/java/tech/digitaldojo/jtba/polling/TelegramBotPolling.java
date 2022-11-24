@@ -30,11 +30,12 @@ package tech.digitaldojo.jtba.polling;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import tech.digitaldojo.jtba.TelegramBot;
+import tech.digitaldojo.jtba.data.types.Update;
+import tech.digitaldojo.jtba.data.types.Updates;
 import tech.digitaldojo.jtba.errors.FatalError;
 import tech.digitaldojo.jtba.errors.ParseError;
 import tech.digitaldojo.jtba.errors.TelegramError;
 import tech.digitaldojo.jtba.events.TelegramEvents;
-import tech.digitaldojo.jtba.threads.PollingThread;
 
 import java.util.Date;
 
@@ -49,15 +50,13 @@ public class TelegramBotPolling {
 
     @Getter
     private final TelegramBot telegramBot;
-    private boolean initial;
     private int timeout = 0;
     private int limit = 100;
     private long offset = 0;
     private Thread pollingTimer;
     @Getter
     private long lastUpdate = 0L;
-
-    private PollingThread lastRequest = null;
+    private Updates lastRequest = null;
 
     public TelegramBotPolling(final TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
@@ -84,7 +83,7 @@ public class TelegramBotPolling {
                     restart();
                 } finally {
                     try {
-                        Thread.sleep(this.telegramBot.getSettings().getPollingIntervalMilliSeconds());
+                        Thread.sleep(this.telegramBot.getSettings().pollingIntervalMilliSeconds);
                     } catch (InterruptedException e) {
                         error(e);
                     }
@@ -107,47 +106,32 @@ public class TelegramBotPolling {
     }
 
     private void polling() throws TelegramError, ParseError, FatalError {
-        if (this.lastRequest != null) {
-            return;
-        }
         JsonObject pollingForm = new JsonObject();
         pollingForm.addProperty("timeout", TelegramBotPolling.this.timeout);
         pollingForm.addProperty("limit", TelegramBotPolling.this.limit);
         pollingForm.addProperty("offset", TelegramBotPolling.this.offset);
-        this.lastRequest = this.telegramBot.getUpdates(pollingForm).then((bot, data) -> {
-            long now = new Date().getTime();
-            this.lastUpdate = now;
-            data.forEach(update -> {
-                TelegramBotPolling.this.offset = update.update_id + 1;
-                try {
-                    new Thread(() -> {
-                        this.telegramBot.processUpdate(update);
-                    }, "update-" + TelegramBotPolling.this.offset).start();
-                } catch (Exception e) {
-                    JsonObject json = new JsonObject();
-                    json.addProperty("message", e.getMessage());
-                    json.addProperty("stack", String.valueOf(e.getStackTrace()));
-                    this.telegramBot.emit(TelegramEvents.error, json);
-                }
-            });
-        }).catchError((bot, error) -> {
-            error(error);
-        }).all((bot, dat) -> {
-            this.lastRequest = null;
+        Updates updates = this.telegramBot.getUpdates(pollingForm);
+        this.lastRequest = updates;
+        this.lastUpdate = new Date().getTime();
+        if (this.lastRequest == null || this.lastRequest.result == null) {
+            throw new ParseError("Could not parse data.");
+        }
+        this.lastRequest.result.forEach(update -> {
+            TelegramBotPolling.this.offset = update.update_id + 1;
+            try {
+                new Thread(() -> this.telegramBot.processUpdate(update), "update-" + TelegramBotPolling.this.offset).start();
+            } catch (Exception e) {
+                this.telegramBot.emit(TelegramEvents.error, Update.fromJson("{}"));
+            }
         });
-        this.lastRequest.run();
     }
 
-
     public boolean isPolling() {
-        return this.lastRequest != null;
+        return (this.lastRequest != null);
     }
 
     private void error(Exception e) {
-        JsonObject json = new JsonObject();
-        json.addProperty("error", e.getMessage());
-        e.printStackTrace();
-        this.telegramBot.emit(TelegramEvents.polling_error, json);
+        this.telegramBot.emit(TelegramEvents.polling_error, Update.fromJson("{}"));
     }
 
 }

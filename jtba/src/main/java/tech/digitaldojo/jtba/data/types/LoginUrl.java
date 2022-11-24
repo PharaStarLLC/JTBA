@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,14 +39,14 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#loginurl">/bots/api#loginurl</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class LoginUrl implements Data {
+public final class LoginUrl implements Data {
 
-    public String url;
-    public String forward_text;
-    public String bot_username;
-    public boolean request_write_access;
+    public final String url;
+    public final String forward_text;
+    public final String bot_username;
+    public final boolean request_write_access;
 
     public static LoginUrl fromJson(String data) {
         return JsonSerializer.fromJson(data, LoginUrl.class);

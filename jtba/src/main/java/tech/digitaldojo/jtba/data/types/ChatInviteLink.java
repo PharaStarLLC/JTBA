@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,54 +39,54 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatinvitelink">/bots/api#chatinvitelink</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ChatInviteLink implements Data {
+public final class ChatInviteLink implements Data {
 
     /**
      * The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
      */
-    public String invite_link;
+    public final String invite_link;
 
     /**
      * Creator of the link
      */
-    public User creator;
+    public final User creator;
 
     /**
      * True, if users joining the chat via the link need to be approved by chat administrators
      */
-    public boolean creates_join_request;
+    public final boolean creates_join_request;
 
     /**
      * True, if the link is primary
      */
-    public boolean is_primary;
+    public final boolean is_primary;
 
     /**
      * True, if the link is revoked
      */
-    public boolean is_revoked;
+    public final boolean is_revoked;
 
     /**
      * Optional. Invite link name
      */
-    public String name;
+    public final String name;
 
     /**
      * Optional. Point in time (Unix timestamp) when the link will expire or has been expired
      */
-    public long expire_date;
+    public final long expire_date;
 
     /**
      * Optional. The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
      */
-    public long member_limit;
+    public final long member_limit;
 
     /**
      * Optional. Number of pending join requests created using this link
      */
-    public long pending_join_request_count;
+    public final long pending_join_request_count;
 
     /**
      * Creates a new {@link ChatInviteLink} instance of a given JSON {@link String}.

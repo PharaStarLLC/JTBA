@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 
 /**
@@ -38,9 +39,9 @@ import tech.digitaldojo.jtba.data.Data;
  *         A placeholder, currently holds no information. Use BotFather to set up your game.
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class CallbackGame implements Data {
+public final class CallbackGame implements Data {
 
     /**
      * Creates a new {@link CallbackGame} instance of a given JSON {@link String}.

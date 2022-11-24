@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,24 +39,24 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#forumtopiccreated">/bots/api#forumtopiccreated</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ForumTopicCreated implements Data {
+public final class ForumTopicCreated implements Data {
 
     /**
      * Name of the topic
      */
-    public String name;
+    public final String name;
 
     /**
      * Color of the topic icon in RGB format
      */
-    public long icon_color;
+    public final long icon_color;
 
     /**
      * Optional. Unique identifier of the custom emoji shown as the topic icon
      */
-    public String icon_custom_emoji_id;
+    public final String icon_custom_emoji_id;
 
     /**
      * Creates a new {@link ForumTopicCreated} instance of a given JSON {@link String}.

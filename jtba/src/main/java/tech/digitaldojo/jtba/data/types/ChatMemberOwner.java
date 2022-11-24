@@ -27,8 +27,7 @@
 
 package tech.digitaldojo.jtba.data.types;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
 /**
@@ -38,8 +37,7 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatmemberowner">/bots/api#chatmemberowner</a>
  * @since 23.11.2022
  */
-@Getter
-@Setter
+@EqualsAndHashCode
 public class ChatMemberOwner extends ChatMember {
 
     /**
@@ -50,12 +48,12 @@ public class ChatMemberOwner extends ChatMember {
     /**
      * True, if the user's presence in the chat is hidden
      */
-    public boolean is_anonymous;
+    public final boolean is_anonymous;
 
     /**
      * Optional. Custom title for this user
      */
-    public String custom_title;
+    public final String custom_title;
 
     public ChatMemberOwner(final User user, final String status, final boolean is_anonymous, final String custom_title) {
         super(user, status);

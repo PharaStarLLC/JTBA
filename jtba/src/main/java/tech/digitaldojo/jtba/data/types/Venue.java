@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,17 +39,17 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#venue">/bots/api#venue</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Venue implements Data {
+public final class Venue implements Data {
 
-    public Location location;
-    public String title;
-    public String address;
-    public String foursquare_id;
-    public String foursquare_type;
-    public String google_place_id;
-    public String google_place_type;
+    public final Location location;
+    public final String title;
+    public final String address;
+    public final String foursquare_id;
+    public final String foursquare_type;
+    public final String google_place_id;
+    public final String google_place_type;
 
     public static Venue fromJson(String data) {
         return JsonSerializer.fromJson(data, Venue.class);

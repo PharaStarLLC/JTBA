@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,34 +39,34 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#choseninlineresult">/bots/api#choseninlineresult</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ChosenInlineResult implements Data {
+public final class ChosenInlineResult implements Data {
 
     /**
      * The unique identifier for the result that was chosen
      */
-    public String result_id;
+    public final String result_id;
 
     /**
      * The user that chose the result
      */
-    public User from;
+    public final User from;
 
     /**
      * Optional. Sender location, only for bots that require user location
      */
-    public Location location;
+    public final Location location;
 
     /**
      * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
      */
-    public String inline_message_id;
+    public final String inline_message_id;
 
     /**
      * The query that was used to obtain the result
      */
-    public String query;
+    public final String query;
 
     /**
      * Creates a new {@link ChosenInlineResult} instance of a given JSON {@link String}.

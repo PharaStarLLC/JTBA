@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,11 +39,11 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#videochatscheduled">/bots/api#videochatscheduled</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class VideoChatScheduled implements Data {
+public final class VideoChatScheduled implements Data {
 
-    public long start_date;
+    public final long start_date;
 
     public static VideoChatScheduled fromJson(String data) {
         return JsonSerializer.fromJson(data, VideoChatScheduled.class);

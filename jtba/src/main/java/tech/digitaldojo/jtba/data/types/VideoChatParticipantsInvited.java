@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -40,11 +41,11 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#videochatparticipantsinvited">/bots/api#videochatparticipantsinvited</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class VideoChatParticipantsInvited implements Data {
+public final class VideoChatParticipantsInvited implements Data {
 
-    public List<User> users;
+    public final List<User> users;
 
     public static VideoChatParticipantsInvited fromJson(String data) {
         return JsonSerializer.fromJson(data, VideoChatParticipantsInvited.class);

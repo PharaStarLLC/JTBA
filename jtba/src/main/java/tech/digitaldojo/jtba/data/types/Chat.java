@@ -29,6 +29,7 @@ package tech.digitaldojo.jtba.data.types;
 
 import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.TelegramBot;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
@@ -42,139 +43,139 @@ import java.util.List;
  * @see <a href="https://core.telegram.org/bots/api#chat">/bots/api#chat</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Chat implements Data {
+public final class Chat implements Data {
 
     /**
      * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
      */
-    public long id;
+    public final long id;
 
     /**
      * Type of chat, can be either “private”, “group”, “supergroup” or “channel”
      */
-    public String type;
+    public final String type;
 
     /**
      * Optional. Title, for supergroups, channels and group chats
      */
-    public String title;
+    public final String title;
 
     /**
      * Optional. Username, for private chats, supergroups and channels if available
      */
-    public String username;
+    public final String username;
 
     /**
      * Optional. First name of the other party in a private chat
      */
-    public String first_name;
+    public final String first_name;
 
     /**
      * Optional. Last name of the other party in a private chat
      */
-    public String last_name;
+    public final String last_name;
 
     /**
      * Optional. True, if the supergroup chat is a forum (has topics enabled)
      */
-    public boolean is_forum;
+    public final boolean is_forum;
 
     /**
      * Optional. Chat photo. Returned only in getChat.
      */
-    public ChatPhoto photo;
+    public final ChatPhoto photo;
 
     /**
      * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
      */
-    public List<String> active_usernames;
+    public final List<String> active_usernames;
 
     /**
      * Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
      */
-    public String emoji_status_custom_emoji_id;
+    public final String emoji_status_custom_emoji_id;
 
     /**
      * Optional. Bio of the other party in a private chat. Returned only in getChat.
      */
-    public String bio;
+    public final String bio;
 
     /**
      * Optional. True, if privacy settings of the other party in the private chat allows to use <code style="color: red; background-color: black;">tg://user?id={user_id}</code> links only in chats with the user. Returned only in getChat.
      */
-    public boolean has_public_forwards;
+    public final boolean has_public_forwards;
 
     /**
      * Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat. Returned only in getChat.
      */
-    public boolean has_restricted_voice_and_video_messages;
+    public final boolean has_restricted_voice_and_video_messages;
 
     /**
      * Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
      */
-    public boolean join_to_send_messages;
+    public final boolean join_to_send_messages;
 
     /**
      * Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
      */
-    public boolean join_by_request;
+    public final boolean join_by_request;
 
     /**
      * Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
      */
-    public String description;
+    public final String description;
 
     /**
      * Optional. Primary invite link, for groups, supergroups and channel chats. Returned only in getChat.
      */
-    public String invite_link;
+    public final String invite_link;
 
     /**
      * Optional. The most recent pinned message (by sending date). Returned only in getChat.
      */
-    public Message pinned_message;
+    public final Message pinned_message;
 
     /**
      * Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
      */
-    public ChatPermissions permissions;
+    public final ChatPermissions permissions;
 
     /**
      * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds. Returned only in getChat.
      */
-    public long slow_mode_delay;
+    public final long slow_mode_delay;
 
     /**
      * Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
      */
-    public long message_auto_delete_time;
+    public final long message_auto_delete_time;
 
     /**
      * Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
      */
-    public boolean has_protected_content;
+    public final boolean has_protected_content;
 
     /**
      * Optional. For supergroups, name of group sticker set. Returned only in getChat.
      */
-    public String sticker_set_name;
+    public final String sticker_set_name;
 
     /**
      * Optional. True, if the bot can change the group sticker set. Returned only in getChat.
      */
-    public boolean can_set_sticker_set;
+    public final boolean can_set_sticker_set;
 
     /**
      * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
      */
-    public long linked_chat_id;
+    public final long linked_chat_id;
 
     /**
      * Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
      */
-    public ChatLocation location;
+    public final ChatLocation location;
 
 
     /**

@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,21 +39,21 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#user">/bots/api#user</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class User implements Data {
+public final class User implements Data {
 
-    public long id;
-    public boolean is_bot;
-    public String first_name;
-    public String last_name;
-    public String username;
-    public String language_code;
-    public boolean is_premium;
-    public boolean added_to_attachment_menu;
-    public boolean can_join_groups;
-    public boolean can_read_all_group_messages;
-    public boolean supports_inline_queries;
+    public final long id;
+    public final boolean is_bot;
+    public final String first_name;
+    public final String last_name;
+    public final String username;
+    public final String language_code;
+    public final boolean is_premium;
+    public final boolean added_to_attachment_menu;
+    public final boolean can_join_groups;
+    public final boolean can_read_all_group_messages;
+    public final boolean supports_inline_queries;
 
     public static User fromJson(String data) {
         return JsonSerializer.fromJson(data, User.class);

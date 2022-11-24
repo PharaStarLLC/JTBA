@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,29 +39,29 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatphoto">/bots/api#chatphoto</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class ChatPhoto implements Data {
+public final class ChatPhoto implements Data {
 
     /**
      * File identifier of small (160x160) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.
      */
-    public String small_file_id;
+    public final String small_file_id;
 
     /**
      * Unique file identifier of small (160x160) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
      */
-    public String small_file_unique_id;
+    public final String small_file_unique_id;
 
     /**
      * File identifier of big (640x640) chat photo. This file_id can be used only for photo download and only for as long as the photo is not changed.
      */
-    public String big_file_id;
+    public final String big_file_id;
 
     /**
      * Unique file identifier of big (640x640) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
      */
-    public String big_file_unique_id;
+    public final String big_file_unique_id;
 
     /**
      * Creates a new {@link ChatPhoto} instance of a given JSON {@link String}.

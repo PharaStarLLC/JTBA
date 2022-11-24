@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,11 +39,11 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#messageautodeletetimerchanged">/bots/api#messageautodeletetimerchanged</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class MessageAutoDeleteTimerChanged implements Data {
+public final class MessageAutoDeleteTimerChanged implements Data {
 
-    public long message_auto_delete_time;
+    public final long message_auto_delete_time;
 
     public static MessageAutoDeleteTimerChanged fromJson(String data) {
         return JsonSerializer.fromJson(data, MessageAutoDeleteTimerChanged.class);

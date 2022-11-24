@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,8 +39,8 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatmember">/bots/api#chatmember</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
 public class ChatMember implements Data {
 
     /**
@@ -50,12 +51,12 @@ public class ChatMember implements Data {
     /**
      * Information about the user
      */
-    public User user;
+    public final User user;
 
     /**
      * The member's status in the chat, always “member”
      */
-    public String status;
+    public final String status;
 
     /**
      * Creates a new {@link ChatMember} instance of a given JSON {@link String}.

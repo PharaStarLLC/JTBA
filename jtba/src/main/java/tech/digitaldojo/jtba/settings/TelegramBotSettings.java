@@ -28,7 +28,7 @@
 package tech.digitaldojo.jtba.settings;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * JTBA; tech.digitaldojo.jtba.settings:TelegramBotSettings
@@ -36,15 +36,15 @@ import lombok.Data;
  * @author <a href="https://github.com/LuciferMorningstarDev">LuciferMorningstarDev</a>
  * @since 22.11.2022
  */
-@Data
+@EqualsAndHashCode
 @AllArgsConstructor
-public class TelegramBotSettings {
+public final class TelegramBotSettings {
 
-    boolean testEnvironment;
-    boolean pollingEnabled;
-    long pollingIntervalMilliSeconds;
-    String baseUrl;
-    String filePath;
-    WebhookSettings webhookSettings;
+    public final boolean testEnvironment;
+    public final boolean pollingEnabled;
+    public final long pollingIntervalMilliSeconds;
+    public final String baseUrl;
+    public final String filePath;
+    public final WebhookSettings webhookSettings;
 
 }

@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,16 +39,16 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#location">/bots/api#location</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Location implements Data {
+public final class Location implements Data {
 
-    public float longitude;
-    public float latitude;
-    public float horizontal_accuracy;
-    public long live_period;
-    public long heading;
-    public long proximity_alert_radius;
+    public final float longitude;
+    public final float latitude;
+    public final float horizontal_accuracy;
+    public final long live_period;
+    public final long heading;
+    public final long proximity_alert_radius;
 
     public static Location fromJson(String data) {
         return JsonSerializer.fromJson(data, Location.class);

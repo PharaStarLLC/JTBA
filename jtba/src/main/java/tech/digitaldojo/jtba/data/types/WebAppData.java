@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,12 +39,12 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#webappdata">/bots/api#webappdata</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class WebAppData implements Data {
+public final class WebAppData implements Data {
 
-    public String data;
-    public String button_text;
+    public final String data;
+    public final String button_text;
 
     public static WebAppData fromJson(String data) {
         return JsonSerializer.fromJson(data, WebAppData.class);

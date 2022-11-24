@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,15 +39,15 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#invoice">/bots/api#invoice</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class Invoice implements Data {
+public final class Invoice implements Data {
 
-    public String title;
-    public String description;
-    public String start_parameter;
-    public String currency;
-    public long total_amount;
+    public final String title;
+    public final String description;
+    public final String start_parameter;
+    public final String currency;
+    public final long total_amount;
 
     public static Invoice fromJson(String data) {
         return JsonSerializer.fromJson(data, Invoice.class);

@@ -27,6 +27,7 @@
 
 package tech.digitaldojo.jtba.data.types;
 
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
 /**
@@ -36,7 +37,8 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#chatmemberleft">/bots/api#chatmemberleft</a>
  * @since 23.11.2022
  */
-public class ChatMemberLeft extends ChatMember {
+@EqualsAndHashCode
+public final class ChatMemberLeft extends ChatMember {
 
     /**
      * Chat Member Type

@@ -28,6 +28,7 @@
 package tech.digitaldojo.jtba.data.types;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -38,24 +39,24 @@ import tech.digitaldojo.jtba.json.JsonSerializer;
  * @see <a href="https://core.telegram.org/bots/api#encryptedcredentials">/bots/api#encryptedcredentials</a>
  * @since 23.11.2022
  */
+@EqualsAndHashCode
 @AllArgsConstructor
-@lombok.Data
-public class EncryptedCredentials implements Data {
+public final class EncryptedCredentials implements Data {
 
     /**
      * Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for {@link EncryptedPassportElement} decryption and authentication
      */
-    public String data;
+    public final String data;
 
     /**
      * Base64-encoded data hash for data authentication
      */
-    public String hash;
+    public final String hash;
 
     /**
      * Base64-encoded secret, encrypted with the bots public RSA key, required for data decryption
      */
-    public String secret;
+    public final String secret;
 
     /**
      * Creates a new {@link EncryptedCredentials} instance of a given JSON {@link String}.
