@@ -10,6 +10,8 @@ JTBA - Developed with ♥ and Published by digitaldojo.tech
 
 ### [Please read The WIKI](https://github.com/PharaStarLLC/JTBA/wiki)
 
+[TODOs](resources/TODOS.md)
+
 ---
 
 #### Add digitaldojo.tech Repository:
