@@ -27,7 +27,9 @@
 
 package tech.digitaldojo.jtba.data.types;
 
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
+import tech.digitaldojo.jtba.TelegramBot;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -382,6 +384,74 @@ public class Message implements Data {
     @Override
     public String toString() {
         return this.toJson();
+    }
+
+    /**
+     * Reply to this message with custom formData.
+     *
+     * @param content  {@link String} content to send
+     * @param formData the {@link JsonObject} to send as data to the api
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#sendmessage">/bots/api#sendmessage at reply_to_message_id</a>
+     */
+    public Message reply(String content, JsonObject formData) {
+        formData.addProperty("reply_to_message_id", message_id);
+        return TelegramBot.getInstance().sendMessage(chat.id, content, formData);
+    }
+
+    /**
+     * Reply to this message.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#sendmessage">/bots/api#sendmessage at reply_to_message_id</a>
+     */
+    public Message reply(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("reply_to_message_id", message_id);
+        return reply(content, formData);
+    }
+
+    /**
+     * Reply to this message with Markdown text.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#markdownv2-style">/bots/api#markdownv2-style</a>
+     */
+    public Message replyMarkdown(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("reply_to_message_id", message_id);
+        formData.addProperty("parse_mode", "Markdown");
+        return reply(content, formData);
+    }
+
+    /**
+     * Reply to this message with MarkdownV2 text.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#markdownv2-style">/bots/api#markdownv2-style</a>
+     */
+    public Message replyMarkdownV2(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("reply_to_message_id", message_id);
+        formData.addProperty("parse_mode", "MarkdownV2");
+        return reply(content, formData);
+    }
+
+    /**
+     * Reply to this message with HTML elements.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#html-style">/bots/api#html-style</a>
+     */
+    public Message replyHTML(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("reply_to_message_id", message_id);
+        formData.addProperty("parse_mode", "HTML");
+        return reply(content, formData);
     }
 
 }

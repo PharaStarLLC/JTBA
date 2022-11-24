@@ -27,7 +27,9 @@
 
 package tech.digitaldojo.jtba.data.types;
 
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
+import tech.digitaldojo.jtba.TelegramBot;
 import tech.digitaldojo.jtba.data.Data;
 import tech.digitaldojo.jtba.json.JsonSerializer;
 
@@ -193,6 +195,69 @@ public class Chat implements Data {
     @Override
     public String toString() {
         return this.toJson();
+    }
+
+    /**
+     * Send a message to this chat with custom formData.
+     *
+     * @param content  {@link String} content to send
+     * @param formData the {@link JsonObject} to send as data to the api
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#sendmessage">/bots/api#sendmessage at reply_to_message_id</a>
+     */
+    public Message send(String content, JsonObject formData) {
+        return TelegramBot.getInstance().sendMessage(id, content, formData);
+    }
+
+    /**
+     * Send a message to this chat.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#sendmessage">/bots/api#sendmessage at reply_to_message_id</a>
+     */
+    public Message send(String content) {
+        JsonObject formData = new JsonObject();
+        return send(content, formData);
+    }
+
+    /**
+     * Send a message to this chat with Markdown text.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#markdownv2-style">/bots/api#markdownv2-style</a>
+     */
+    public Message sendMarkdown(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("parse_mode", "Markdown");
+        return send(content, formData);
+    }
+
+    /**
+     * Send a message to this chat with MarkdownV2 text.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#markdownv2-style">/bots/api#markdownv2-style</a>
+     */
+    public Message sendMarkdownV2(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("parse_mode", "MarkdownV2");
+        return send(content, formData);
+    }
+
+    /**
+     * Send a message to this chat with HTML elements.
+     *
+     * @param content {@link String} content to send
+     * @return {@link Message} the sent message
+     * @see <a href="https://core.telegram.org/bots/api#html-style">/bots/api#html-style</a>
+     */
+    public Message sendHTML(String content) {
+        JsonObject formData = new JsonObject();
+        formData.addProperty("parse_mode", "HTML");
+        return send(content, formData);
     }
 
 }
